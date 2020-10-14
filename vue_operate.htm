@@ -1,0 +1,4027 @@
+<!DOCTYPE html><!-- saved from url=(0043)https://bubuzou.com/2020/09/21/vue-operate/ -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="baidu-site-verification" content="1EB8XoOl0C">
+<meta name="google-site-verification" content="K7thEgdLm0UfRWJ5MGdF7sCcjClSzAlxFLPv2Oz5CGM">
+<title> 34条我能告诉你的Vue之实操篇 · 步步走</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vue组件通信、操作符、通用性、优雅性、$event、开发技巧。">
+<meta name="keywords" content="Vue组件通信、操作符、通用性、优雅性、$event、开发技巧。">
+<meta name="author" content="typeR">
+<link rel="short icon" href="https://bubuzou.com/images/favicon.ico">
+<link rel="stylesheet" href="./bubuzou.css">
+<!-- <link rel="search" type="application/opensearchdescription+xml" href="https://bubuzou.com/atom.xml" title="步步走"> -->
+<!-- <script src="./analytics.js"></script>
+<script src="./hm.js"></script>
+<script src="./av-min.js"></script>
+<script src="./Valine.min.js"></script> -->
+<!-- <style type="text/css">
+.cancel-reply-btn[data-class=v]{font-size:16px;text-align:left}.v[data-class=v] *{-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1.75}.v[data-class=v] .status-bar,.v[data-class=v] .veditor,.v[data-class=v] .vinput,.v[data-class=v] p,.v[data-class=v] pre code{color:#555}.v[data-class=v] .vsys,.v[data-class=v] .vtime{color:#b3b3b3}.v[data-class=v] .text-right{text-align:right}.v[data-class=v] .text-center{text-align:center}.v[data-class=v] img{max-width:100%;border:none}.v[data-class=v] hr{margin:.825em 0;border-color:#f6f6f6;border-style:dashed}.v[data-class=v].hide-avatar .vimg{display:none}.v[data-class=v] a{position:relative;cursor:pointer;color:#1abc9c;text-decoration:none;display:inline-block}.v[data-class=v] a:hover{color:#d7191a}.v[data-class=v] code,.v[data-class=v] pre{background-color:#f8f8f8;padding:.2em .4em;border-radius:3px;font-size:85%;margin:0}.v[data-class=v] pre{padding:10px;overflow:auto;line-height:1.45}.v[data-class=v] pre code{padding:0;background:transparent;white-space:pre-wrap;word-break:keep-all}.v[data-class=v] blockquote{color:#666;margin:.5em 0;padding:0 0 0 1em;border-left:8px solid hsla(0,0%,93%,.5)}.v[data-class=v] .vinput{border:none;resize:none;outline:none;padding:10px 5px;max-width:100%;font-size:.775em}.v[data-class=v] input[type=checkbox],.v[data-class=v] input[type=radio]{display:inline-block;vertical-align:middle;margin-top:-2px}.v[data-class=v] .vicon{cursor:pointer;display:inline-block;overflow:hidden;fill:#555;vertical-align:middle}.v[data-class=v] .vicon+.vicon{margin-left:10px}.v[data-class=v] .vicon.actived{fill:#66b1ff}.v[data-class=v] .vrow{font-size:0;padding:10px 0}.v[data-class=v] .vrow .vcol{display:inline-block;vertical-align:middle;font-size:14px}.v[data-class=v] .vrow .vcol.vcol-20{width:20%}.v[data-class=v] .vrow .vcol.vcol-30{width:30%}.v[data-class=v] .vrow .vcol.vcol-40{width:40%}.v[data-class=v] .vrow .vcol.vcol-50{width:50%}.v[data-class=v] .vrow .vcol.vcol-60{width:60%}.v[data-class=v] .vrow .vcol.vcol-70{width:70%}.v[data-class=v] .vrow .vcol.vcol-80{width:80%}.v[data-class=v] .vrow .vcol.vctrl{font-size:12px}.v[data-class=v] .emoji,.v[data-class=v] .vemoji{max-width:25px;vertical-align:middle;margin:0 1px;display:inline-block}.v[data-class=v] .vwrap{border:1px solid #f0f0f0;border-radius:4px;margin-bottom:10px;overflow:hidden;position:relative;padding:10px}.v[data-class=v] .vwrap input{background:transparent}.v[data-class=v] .vwrap .vedit{position:relative;padding-top:10px}.v[data-class=v] .vwrap .cancel-reply-btn{position:absolute;right:5px;top:5px;cursor:pointer}.v[data-class=v] .vwrap .vemojis{display:none;font-size:18px;max-height:145px;overflow:auto;padding-bottom:10px;-webkit-box-shadow:0 0 1px #f0f0f0;box-shadow:0 0 1px #f0f0f0}.v[data-class=v] .vwrap .vemojis i{font-style:normal;padding-top:7px;width:36px;cursor:pointer;text-align:center;display:inline-block;vertical-align:middle}.v[data-class=v] .vwrap .vpreview{padding:7px;-webkit-box-shadow:0 0 1px #f0f0f0;box-shadow:0 0 1px #f0f0f0}.v[data-class=v] .vwrap .vheader .vinput{width:33.33%;border-bottom:1px dashed #dedede}.v[data-class=v] .vwrap .vheader.item2 .vinput{width:50%}.v[data-class=v] .vwrap .vheader.item1 .vinput{width:100%}.v[data-class=v] .vwrap .vheader .vinput:focus{border-bottom-color:#eb5055}@media screen and (max-width:520px){.v[data-class=v] .vwrap .vheader.item2 .vinput,.v[data-class=v] .vwrap .vheader .vinput{width:100%}}.v[data-class=v] .vpower{color:#999;font-size:.75em;padding:.5em 0}.v[data-class=v] .vpower a{font-size:.75em}.v[data-class=v] .vcount{padding:5px;font-weight:600;font-size:1.25em}.v[data-class=v] ol,.v[data-class=v] ul{padding:0;margin-left:1.25em}.v[data-class=v] .txt-center{text-align:center}.v[data-class=v] .txt-right{text-align:right}.v[data-class=v] .pd5{padding:5px}.v[data-class=v] .pd10{padding:10px}.v[data-class=v] .veditor{width:100%;min-height:8.75em;font-size:.875em;background:transparent;resize:vertical;-webkit-transition:all .25s ease;transition:all .25s ease}.v[data-class=v] .vbtn{-webkit-transition-duration:.4s;transition-duration:.4s;text-align:center;color:#555;border:1px solid #ededed;border-radius:.3em;display:inline-block;background:transparent;margin-bottom:0;font-weight:400;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;white-space:nowrap;padding:.5em 1.25em;font-size:.875em;line-height:1.42857143;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;outline:none}.v[data-class=v] .vbtn+.vbtn{margin-left:1.25em}.v[data-class=v] .vbtn:active,.v[data-class=v] .vbtn:hover{color:#3090e4;border-color:#3090e4}.v[data-class=v] .vbtn:disabled{border-color:#e1e1e1;color:#e1e1e1;background-color:#fdfafa;cursor:not-allowed}.v[data-class=v] .vempty{padding:1.25em;text-align:center;color:#555;overflow:auto}.v[data-class=v] .vsys{display:inline-block;padding:.2em .5em;font-size:.75em;border-radius:.2em;margin-right:.3em}@media screen and (max-width:520px){.v[data-class=v] .vsys{display:none}}.v[data-class=v] .vcards{width:100%}.v[data-class=v] .vcards .vcard{padding-top:1.25em;position:relative;display:block}.v[data-class=v] .vcards .vcard:after{content:"";clear:both;display:block}.v[data-class=v] .vcards .vcard .vimg{width:3.125em;height:3.125em;float:left;border-radius:50%;margin-right:.7525em;border:1px solid #f5f5f5;padding:.125em}@media screen and (max-width:720px){.v[data-class=v] .vcards .vcard .vimg{width:2.5em;height:2.5em}}.v[data-class=v] .vcards .vcard .vhead{line-height:1.5;margin-top:0}.v[data-class=v] .vcards .vcard .vhead .vnick{position:relative;font-size:.875em;font-weight:500;margin-right:.875em;cursor:pointer;text-decoration:none;display:inline-block}.v[data-class=v] .vcards .vcard .vhead .vnick:hover{color:#d7191a}.v[data-class=v] .vcards .vcard .vh{overflow:hidden;padding-bottom:.5em;border-bottom:1px dashed #f5f5f5}.v[data-class=v] .vcards .vcard .vh .vtime{font-size:.75em;margin-right:.875em}.v[data-class=v] .vcards .vcard .vh .vmeta{line-height:1;position:relative}.v[data-class=v] .vcards .vcard .vh .vmeta .vat{font-size:.8125em;color:#ef2f11;cursor:pointer;float:right}.v[data-class=v] .vcards .vcard:last-child .vh{border-bottom:none}.v[data-class=v] .vcards .vcard .vcontent{word-wrap:break-word;word-break:break-all;font-size:.875em;line-height:2;position:relative;margin-bottom:.75em;padding-top:.625em}.v[data-class=v] .vcards .vcard .vcontent.expand{cursor:pointer;max-height:8em;overflow:hidden}.v[data-class=v] .vcards .vcard .vcontent.expand:before{display:block;content:"";position:absolute;width:100%;left:0;top:0;bottom:3.15em;background:-webkit-gradient(linear,left top,left bottom,from(hsla(0,0%,100%,0)),to(hsla(0,0%,100%,.9)));background:linear-gradient(180deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.9));z-index:999}.v[data-class=v] .vcards .vcard .vcontent.expand:after{display:block;content:attr(data-expand);text-align:center;color:#828586;position:absolute;width:100%;height:3.15em;line-height:3.15em;left:0;bottom:0;z-index:999;background:hsla(0,0%,100%,.9)}.v[data-class=v] .vcards .vcard .vquote{padding-left:1em;border-left:1px dashed hsla(0,0%,93%,.5)}.v[data-class=v] .vcards .vcard .vquote .vimg{width:2.225em;height:2.225em}.v[data-class=v] .vpage .vmore{margin:1em 0}.v[data-class=v] .clear{content:"";display:block;clear:both}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@-webkit-keyframes pulse{50%{background:#dcdcdc}}@keyframes pulse{50%{background:#dcdcdc}}.v[data-class=v] .vspinner{width:22px;height:22px;display:inline-block;border:6px double #a0a0a0;border-top-color:transparent;border-bottom-color:transparent;border-radius:50%;-webkit-animation:spin 1s infinite linear;animation:spin 1s infinite linear;position:relative;vertical-align:middle;margin:0 5px}.dark .v[data-class=v] .status-bar,.dark .v[data-class=v] .veditor,.dark .v[data-class=v] .vinput,.dark .v[data-class=v] p,.dark .v[data-class=v] pre code,.night .v[data-class=v] .status-bar,.night .v[data-class=v] .veditor,.night .v[data-class=v] .vinput,.night .v[data-class=v] p,.night .v[data-class=v] pre code,.theme__dark .v[data-class=v] .status-bar,.theme__dark .v[data-class=v] .veditor,.theme__dark .v[data-class=v] .vinput,.theme__dark .v[data-class=v] p,.theme__dark .v[data-class=v] pre code,[data-theme=dark] .v[data-class=v] .status-bar,[data-theme=dark] .v[data-class=v] .veditor,[data-theme=dark] .v[data-class=v] .vinput,[data-theme=dark] .v[data-class=v] p,[data-theme=dark] .v[data-class=v] pre code{color:#b2b2b5}.dark .v[data-class=v] .vsys,.dark .v[data-class=v] .vtime,.night .v[data-class=v] .vsys,.night .v[data-class=v] .vtime,.theme__dark .v[data-class=v] .vsys,.theme__dark .v[data-class=v] .vtime,[data-theme=dark] .v[data-class=v] .vsys,[data-theme=dark] .v[data-class=v] .vtime{color:#929298}.dark .v[data-class=v] code,.dark .v[data-class=v] pre,.dark .v[data-class=v] pre code,.night .v[data-class=v] code,.night .v[data-class=v] pre,.night .v[data-class=v] pre code,.theme__dark .v[data-class=v] code,.theme__dark .v[data-class=v] pre,.theme__dark .v[data-class=v] pre code,[data-theme=dark] .v[data-class=v] code,[data-theme=dark] .v[data-class=v] pre,[data-theme=dark] .v[data-class=v] pre code{color:#929298;background-color:#151414}.dark .v[data-class=v] .vwrap,.night .v[data-class=v] .vwrap,.theme__dark .v[data-class=v] .vwrap,[data-theme=dark] .v[data-class=v] .vwrap{border-color:#b2b2b5}.dark .v[data-class=v] .vicon,.night .v[data-class=v] .vicon,.theme__dark .v[data-class=v] .vicon,[data-theme=dark] .v[data-class=v] .vicon{fill:#b2b2b5}.dark .v[data-class=v] .vicon.actived,.night .v[data-class=v] .vicon.actived,.theme__dark .v[data-class=v] .vicon.actived,[data-theme=dark] .v[data-class=v] .vicon.actived{fill:#66b1ff}.dark .v[data-class=v] .vbtn,.night .v[data-class=v] .vbtn,.theme__dark .v[data-class=v] .vbtn,[data-theme=dark] .v[data-class=v] .vbtn{color:#b2b2b5;border-color:#b2b2b5}.dark .v[data-class=v] .vbtn:hover,.night .v[data-class=v] .vbtn:hover,.theme__dark .v[data-class=v] .vbtn:hover,[data-theme=dark] .v[data-class=v] .vbtn:hover{color:#66b1ff;border-color:#66b1ff}.dark .v[data-class=v] a:hover,.night .v[data-class=v] a:hover,.theme__dark .v[data-class=v] a:hover,[data-theme=dark] .v[data-class=v] a:hover{color:#d7191a}.dark .v[data-class=v] .vcards .vcard .vcontent.expand:before,.night .v[data-class=v] .vcards .vcard .vcontent.expand:before,.theme__dark .v[data-class=v] .vcards .vcard .vcontent.expand:before,[data-theme=dark] .v[data-class=v] .vcards .vcard .vcontent.expand:before{background:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.3)),to(rgba(0,0,0,.7)));background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.7))}.dark .v[data-class=v] .vcards .vcard .vcontent.expand:after,.night .v[data-class=v] .vcards .vcard .vcontent.expand:after,.theme__dark .v[data-class=v] .vcards .vcard .vcontent.expand:after,[data-theme=dark] .v[data-class=v] .vcards .vcard .vcontent.expand:after{background:rgba(0,0,0,.7)}@media (prefers-color-scheme:dark){.v[data-class=v] .status-bar,.v[data-class=v] .veditor,.v[data-class=v] .vinput,.v[data-class=v] p,.v[data-class=v] pre code{color:#b2b2b5}.v[data-class=v] .vsys,.v[data-class=v] .vtime{color:#929298}.v[data-class=v] code,.v[data-class=v] pre,.v[data-class=v] pre code{color:#929298;background-color:#151414}.v[data-class=v] .vwrap{border-color:#b2b2b5}.v[data-class=v] .vicon{fill:#b2b2b5}.v[data-class=v] .vicon.actived{fill:#66b1ff}.v[data-class=v] .vbtn{color:#b2b2b5;border-color:#b2b2b5}.v[data-class=v] .vbtn:hover{color:#66b1ff;border-color:#66b1ff}.v[data-class=v] a:hover{color:#d7191a}.v[data-class=v] .vcards .vcard .vcontent.expand:before{background:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.3)),to(rgba(0,0,0,.7)));background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.7))}.v[data-class=v] .vcards .vcard .vcontent.expand:after{background:rgba(0,0,0,.7)}}
+</style> -->
+<meta name="generator" content="Hexo 5.0.0">
+<!-- <link rel="alternate" href="https://bubuzou.com/atom.xml" title="步步走" type="application/atom+xml"> -->
+
+</head>
+<body>
+</div>
+<header>
+<div class="header row">
+	<a href="https://bubuzou.com/" class="logo-link"><img src="./logo.png"></a>
+	<ul id="nav_list" class="nav nav-list">
+		<li class="nav-list-item"><a href="https://bubuzou.com/" target="_self" data-hover="博文" class="nav-list-link">博文</a></li>
+		<li class="nav-list-item"><a href="https://bubuzou.com/archives/" target="_self" data-hover="归档" class="nav-list-link">归档</a></li>
+		<li class="nav-list-item"><a href="https://bubuzou.com/categories/live/" target="_self" data-hover="生活" class="nav-list-link">生活</a></li>
+		<li class="nav-list-item"><a href="https://bubuzou.com/categories/read/" target="_self" data-hover="读书" class="nav-list-link">读书</a></li>
+		<li class="nav-list-item"><a href="https://bubuzou.com/about/" target="_self" data-hover="关于" class="nav-list-link">关于</a></li>
+	</ul>
+	<div class="search">
+		<a id="search_btn" href="https://bubuzou.com/2020/09/21/vue-operate/#search"></a>
+	</div>
+	<div id="nav_btn" class="nav-btn">
+		<span></span><span></span><span></span>
+	</div>
+</div>
+</header>
+<div class="row scroll-con">
+	<section class="container"><!-- for archive page-->
+	<div id="postAr" class="post">
+		<article class="post-block">
+		<h1 class="post-title">34条我能告诉你的Vue之实操篇</h1>
+		<img src="./scroll_init.drawio.png" />
+		<div class="post-info">
+			2020-09-21
+			<p class="visit">
+				<i data-identity="2020/09/21/vue-operate/" class="article-timer">35</i><span>次访问</span>
+			</p>
+		</div>
+		<div class="post-content">
+			<p>
+				这是我学习整理的关于 <code>Vue.js</code> 系列文章的第一篇，另外还有两篇分别是关于优化和原理的。希望读完这3篇文章，你能对 <code>Vue</code> 有个更深入的认识。
+			</p>
+			<h2 id="7种组件通信方式随你选"><a href="https://bubuzou.com/2020/09/21/vue-operate/#7%E7%A7%8D%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F%E9%9A%8F%E4%BD%A0%E9%80%89" class="headerlink" title="7种组件通信方式随你选"></a>7种组件通信方式随你选</h2>
+			<p>
+				组件通信是 <code>Vue</code> 的核心知识，掌握这几个知识点，面试开发一点问题都没有。
+			</p>
+			<h3 id="props-on-emit"><a href="https://bubuzou.com/2020/09/21/vue-operate/#props-on-emit" class="headerlink" title="props/@on+$emit"></a>props/@on+$emit</h3>
+			<p>
+				用于实现父子组件间通信。通过 <code>props</code> 可以把父组件的消息传递给子组件：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="code">
+					<pre><span class="line"><span class="comment">&lt;!-- parent.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span><span class="attr">:title</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<a id="more"></a>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// child.vue</span></span><br>
+						<span class="line">props: {</span><br>
+						<span class="line">    title: {</span><br>
+						<span class="line">        type: <span class="built_in">String</span>,</span><br>
+						<span class="line"><span class="keyword">default</span>: <span class="string">''</span>,</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				这样一来 <code>this.title</code> 就直接拿到从父组件中传过来的 <code>title</code> 的值了。注意，你不应该在子组件内部直接改变 <code>prop</code>，这里就不多赘述，<a target="_blank" rel="noopener" href="https://cn.vuejs.org/v2/guide/components-props.html#%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81">可以直接看官网介绍</a>。
+			</p>
+			<p>
+				而通过 <code>@on+$emit</code> 组合可以实现子组件给父组件传递信息：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- parent.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span> @<span class="attr">changeTitle</span>=<span class="string">"changeTitle"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// child.vue</span></span><br>
+						<span class="line"><span class="built_in">this</span>.$emit(<span class="string">'changeTitle'</span>, <span class="string">'bubuzou.com'</span>)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="attrs和-listeners"><a href="https://bubuzou.com/2020/09/21/vue-operate/#attrs%E5%92%8C-listeners" class="headerlink" title="$attrs和$listeners"></a>$attrs和$listeners</h3>
+			<p>
+				<code>Vue_2.4</code> 中新增的 <code>$attrs/$listeners</code> 可以进行跨级的组件通信。<br>
+				<code>$attrs</code> 包含了父级作用域中不作为 <code>prop</code> 的属性绑定（<code>class</code> 和 <code>style</code> 除外），好像听起来有些不好理解？没事，看下代码就知道是什么意思了：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 父组件 index.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">list</span><span class="attr">class</span>=<span class="string">"list-box"</span><span class="attr">title</span>=<span class="string">"标题"</span><span class="attr">desc</span>=<span class="string">"描述"</span><span class="attr">:list</span>=<span class="string">"list"</span>&gt;</span><span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// 子组件 list.vue</span></span><br>
+						<span class="line">props: {</span><br>
+						<span class="line">    list: [],</span><br>
+						<span class="line">},</span><br>
+						<span class="line">mounted() {</span><br>
+						<span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.$attrs)  <span class="comment">// {title: "标题", desc: "描述"}</span></span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				在上面的父组件 <code>index.vue</code> 中我们给子组件 <code>list.vue</code> 传递了4个参数，但是在子组件内部 <code>props</code> 里只定义了一个 <code>list</code>，那么此时 <code>this.$attrs</code> 的值是什么呢？首先要去除 <code>props</code> 中已经绑定了的，然后再去除 <code>class</code> 和 <code>style</code>，最后剩下 <code>title</code> 和 <code>desc</code> 结果和打印的是一致的。<br>
+				基于上面代码的基础上，我们在给 <code>list.vue</code> 中加一个子组件：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 子组件 list.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">detail</span><span class="attr">v-bind</span>=<span class="string">"$attrs"</span>&gt;</span><span class="tag">&lt;/<span class="name">detial</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// 孙子组件 detail.vue</span></span><br>
+						<span class="line"><span class="comment">// 不定义props，直接打印 $attrs</span></span><br>
+						<span class="line">mounted() {</span><br>
+						<span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.$attrs)  <span class="comment">// {title: "标题", desc: "描述"}</span></span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				在子组件中我们定义了一个 <code>v-bind="$attrs"</code> 可以把父级传过来的参数，去除 <code>props</code>、<code>class</code> 和 <code>style</code> 之后剩下的继续往下级传递，这样就实现了跨级的组件通信。
+			</p>
+			<p>
+				<code>$attrs</code> 是可以进行跨级的参数传递，实现父到子的通信；同样的，通过 <code>$listeners</code> 用类似的操作方式可以进行跨级的事件传递，实现子到父的通信。<code>$listeners</code> 包含了父作用域中不含 <code>.native</code> 修饰的 <code>v-on</code> 事件监听器，通过 <code>v-on="$listeners"</code> 传递到子组件内部。
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 父组件 index.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">list</span> @<span class="attr">change</span>=<span class="string">"change"</span> @<span class="attr">update.native</span>=<span class="string">"update"</span>&gt;</span><span class="tag">&lt;/<span class="name">list</span>&gt;</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">&lt;!-- 子组件 list.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">detail</span><span class="attr">v-on</span>=<span class="string">"$listeners"</span>&gt;</span><span class="tag">&lt;/<span class="name">detail</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// 孙子组件 detail.vue</span></span><br>
+						<span class="line">mounted() {</span><br>
+						<span class="line"><span class="built_in">this</span>.$listeners.change()</span><br>
+						<span class="line"><span class="built_in">this</span>.$listeners.update() <span class="comment">// TypeError: this.$listeners.update is not a function</span></span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="provide-inject组合拳"><a href="https://bubuzou.com/2020/09/21/vue-operate/#provide-inject%E7%BB%84%E5%90%88%E6%8B%B3" class="headerlink" title="provide/inject组合拳"></a>provide/inject组合拳</h3>
+			<p>
+				<code>provide/inject</code> 组合以允许一个祖先组件向其所有子孙后代注入一个依赖，可以注入属性和方法，从而实现跨级父子组件通信。在开发高阶组件和组件库的时候尤其好用。
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+						<span class="line">19</span><br>
+						<span class="line">20</span><br>
+						<span class="line">21</span><br>
+						<span class="line">22</span><br>
+						<span class="line">23</span><br>
+						<span class="line">24</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// 父组件 index.vue</span></span><br>
+						<span class="line">data() {</span><br>
+						<span class="line"><span class="keyword">return</span> {</span><br>
+						<span class="line">        title: <span class="string">'bubuzou.com'</span>,</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line">provide() {</span><br>
+						<span class="line"><span class="keyword">return</span> {</span><br>
+						<span class="line">        detail: {</span><br>
+						<span class="line">            title: <span class="built_in">this</span>.title,</span><br>
+						<span class="line">            change: <span class="function">(<span class="params">val</span>) =&gt;</span> {</span><br>
+						<span class="line"><span class="built_in">console</span>.log( val )</span><br>
+						<span class="line">            }</span><br>
+						<span class="line">        }</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">// 孙子组件 detail.vue</span></span><br>
+						<span class="line">inject: [<span class="string">'detail'</span>],</span><br>
+						<span class="line">mounted() {</span><br>
+						<span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.detail.title)  <span class="comment">// bubuzou.com</span></span><br>
+						<span class="line"><span class="built_in">this</span>.detail.title = <span class="string">'hello world'</span><span class="comment">// 虽然值被改变了，但是父组件中 title 并不会重新渲染</span></span><br>
+						<span class="line"><span class="built_in">this</span>.detail.change(<span class="string">'改变后的值'</span>)  <span class="comment">// 执行这句后将打印：改变后的值 </span></span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<blockquote>
+				<p>
+					<code>provide</code> 和 <code>inject</code> 的绑定对于原始类型来说并不是可响应的。这是刻意为之的。然而，如果你传入了一个可监听的对象，那么其对象的 property 还是可响应的。这也就是为什么在孙子组件中改变了 <code>title</code>，但是父组件不会重新渲染的原因。
+				</p>
+			</blockquote>
+			<h3 id="EventBus"><a href="https://bubuzou.com/2020/09/21/vue-operate/#EventBus" class="headerlink" title="EventBus"></a>EventBus</h3>
+			<p>
+				以上三种方式都是只能从父到子方向或者子到父方向进行组件的通信，而我就比较牛逼了😀，我还能进行兄弟组件之间的通信，甚至任意2个组件间通信。利用 <code>Vue</code> 实例实现一个 <code>EventBus</code> 进行信息的发布和订阅，可以实现在任意2个组件之间通信。有两种写法都可以初始化一个 <code>eventBus</code> 对象：
+			</p>
+			<ol>
+				<li>
+				<p>
+					通过导出一个 <code>Vue</code> 实例，然后再需要的地方引入：
+				</p>
+				<figure class="highlight js">
+				<table>
+				<tbody>
+				<tr>
+					<td class="gutter">
+						<pre>
+							<span class="line">1</span><br>
+							<span class="line">2</span><br>
+							<span class="line">3</span><br>
+						</pre>
+					</td>
+					<td class="code">
+						<pre>
+							<span class="line"><span class="comment">// eventBus.js</span></span><br>
+							<span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span><span class="string">'vue'</span></span><br>
+							<span class="line"><span class="keyword">export</span><span class="keyword">const</span> EventBus = <span class="keyword">new</span> Vue()</span><br>
+						</pre>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</figure>
+				<p>
+					 使用 <code>EventBus</code> 订阅和发布消息：
+				</p>
+				<figure class="highlight js">
+				<table>
+				<tbody>
+				<tr>
+					<td class="gutter">
+						<pre>
+							<span class="line">1</span><br>
+							<span class="line">2</span><br>
+							<span class="line">3</span><br>
+							<span class="line">4</span><br>
+							<span class="line">5</span><br>
+							<span class="line">6</span><br>
+							<span class="line">7</span><br>
+						</pre>
+					</td>
+					<td class="code">
+						<pre>
+							<span class="line"><span class="keyword">import</span> {EventBus} <span class="keyword">from</span><span class="string">'../utils/eventBus.js'</span></span><br>
+							<span class="line"></span><br>
+							<span class="line"><span class="comment">// 订阅处</span></span><br>
+							<span class="line">EventBus.$on(<span class="string">'update'</span>, <span class="function"><span class="params">val</span> =&gt;</span> {})</span><br>
+							<span class="line"></span><br>
+							<span class="line"><span class="comment">// 发布处</span></span><br>
+							<span class="line">EventBus.$emit(<span class="string">'update'</span>, <span class="string">'更新信息'</span>)</span><br>
+						</pre>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</figure>
+				</li>
+				<li>
+				<p>
+					在 <code>main.js</code> 中初始化一个全局的事件总线：
+				</p>
+				<figure class="highlight js">
+				<table>
+				<tbody>
+				<tr>
+					<td class="gutter">
+						<pre>
+							<span class="line">1</span><br>
+							<span class="line">2</span><br>
+						</pre>
+					</td>
+					<td class="code">
+						<pre>
+							<span class="line"><span class="comment">// main.js</span></span><br>
+							<span class="line">Vue.prototype.$eventBus = <span class="keyword">new</span> Vue()</span><br>
+						</pre>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</figure>
+				<p>
+					 使用：
+				</p>
+				<figure class="highlight js">
+				<table>
+				<tbody>
+				<tr>
+					<td class="gutter">
+						<pre>
+							<span class="line">1</span><br>
+							<span class="line">2</span><br>
+							<span class="line">3</span><br>
+							<span class="line">4</span><br>
+							<span class="line">5</span><br>
+						</pre>
+					</td>
+					<td class="code">
+						<pre>
+							<span class="line"><span class="comment">// 需要订阅的地方</span></span><br>
+							<span class="line"><span class="built_in">this</span>.$eventBus.$on(<span class="string">'update'</span>, <span class="function"><span class="params">val</span> =&gt;</span> {})</span><br>
+							<span class="line"></span><br>
+							<span class="line"><span class="comment">// 需要发布信息的地方</span></span><br>
+							<span class="line"><span class="built_in">this</span>.$eventBus.$emit(<span class="string">'update'</span>, <span class="string">'更新信息'</span>)</span><br>
+						</pre>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</figure>
+				</li>
+			</ol>
+			<p>
+				如果想要移除事件监听，可以这样来：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="built_in">this</span>.$eventBus.$off(<span class="string">'update'</span>, {})</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				上面介绍了两种写法，推荐使用第二种全局定义的方式，可以避免在多处导入 <code>EventBus</code> 对象。这种组件通信方式只要订阅和发布的顺序得当，且事件名称保持唯一性，理论上可以在任何 2 个组件之间进行通信，相当的强大。但是方法虽好，可不要滥用，建议只用于简单、少量业务的项目中，如果在一个大型繁杂的项目中无休止的使用该方法，将会导致项目难以维护。
+			</p>
+			<h3 id="Vuex进行全局的数据管理"><a href="https://bubuzou.com/2020/09/21/vue-operate/#Vuex%E8%BF%9B%E8%A1%8C%E5%85%A8%E5%B1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86" class="headerlink" title="Vuex进行全局的数据管理"></a>Vuex进行全局的数据管理</h3>
+			<p>
+				<code>Vuex</code> 是一个专门服务于 <code>Vue.js</code> 应用的状态管理工具。适用于中大型应用。<code>Vuex</code> 中有一些专有概念需要先了解下：
+			</p>
+			<ul>
+				<li><code>State</code>：用于数据的存储，是 <code>store</code> 中的唯一数据源；</li>
+				<li><code>Getter</code>：类似于计算属性，就是对 <code>State</code> 中的数据进行二次的处理，比如筛选和对多个数据进行求值等；</li>
+				<li><code>Mutation</code>：类似事件，是改变 <code>Store</code> 中数据的唯一途径，只能进行同步操作；</li>
+				<li><code>Action</code>：类似 <code>Mutation</code>，通过提交 <code>Mutation</code> 来改变数据，而不直接操作 <code>State</code>，可以进行异步操作；</li>
+				<li><code>Module</code>：当业务复杂的时候，可以把 <code>store</code> 分成多个模块，便于维护；</li>
+			</ul>
+			<p>
+				对于这几个概念有各种对应的 <code>map</code> 辅助函数用来简化操作，比如 <code>mapState</code>，如下三种写法其实是一个意思，都是为了从 <code>state</code> 中获取数据，并且通过计算属性返回给组件使用。
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">computed: {</span><br>
+						<span class="line">    count() {</span><br>
+						<span class="line"><span class="keyword">return</span><span class="built_in">this</span>.$store.state.count</span><br>
+						<span class="line">    },</span><br>
+						<span class="line">    ...mapState({</span><br>
+						<span class="line">        count: <span class="function"><span class="params">state</span> =&gt;</span> state.count</span><br>
+						<span class="line">    }),</span><br>
+						<span class="line">    ...mapState([<span class="string">'count'</span>]),</span><br>
+						<span class="line">},</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				又比如 <code>mapMutations</code>， 以下两种函数的定义方式要实现的功能是一样的，都是要提交一个 <code>mutation</code> 去改变 <code>state</code> 中的数据：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">methods: {</span><br>
+						<span class="line">    increment() {</span><br>
+						<span class="line"><span class="built_in">this</span>.$store.commit(<span class="string">'increment'</span>)</span><br>
+						<span class="line">    },</span><br>
+						<span class="line">    ...mapMutations([<span class="string">'increment'</span>]),</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				接下来就用一个极简的例子来展示 <code>Vuex</code> 中任意2个组件间的状态管理。<br>
+				1、 新建 <code>store.js</code>
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span><span class="string">'vue'</span></span><br>
+						<span class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span><span class="string">'vuex'</span></span><br>
+						<span class="line">Vue.use(Vuex)</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span><span class="keyword">new</span> Vuex.Store({</span><br>
+						<span class="line">    state: {</span><br>
+						<span class="line">        count: <span class="number">0</span>,</span><br>
+						<span class="line">    },</span><br>
+						<span class="line">    mutations: {</span><br>
+						<span class="line">        increment(state) {</span><br>
+						<span class="line">            state.count++</span><br>
+						<span class="line">        },</span><br>
+						<span class="line">        decrement(state) {</span><br>
+						<span class="line">            state.count--</span><br>
+						<span class="line">        }</span><br>
+						<span class="line">    },</span><br>
+						<span class="line">})</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				2、 创建一个带 <code>store</code> 的 <code>Vue</code> 实例
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span><span class="string">'vue'</span></span><br>
+						<span class="line"><span class="keyword">import</span> App <span class="keyword">from</span><span class="string">'./App.vue'</span></span><br>
+						<span class="line"><span class="keyword">import</span> router <span class="keyword">from</span><span class="string">'./router'</span></span><br>
+						<span class="line"><span class="keyword">import</span> store <span class="keyword">from</span><span class="string">'./utils/store'</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">new</span> Vue({</span><br>
+						<span class="line">    router,</span><br>
+						<span class="line">    store,</span><br>
+						<span class="line">    render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br>
+						<span class="line">}).$mount(<span class="string">'#app'</span>)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				3、 任意组件 <code>A</code> 实现点击递增
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">p</span> @<span class="attr">click</span>=<span class="string">"increment"</span>&gt;</span>click to increment：{{count}}<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br>
+						<span class="line"><span class="javascript"><span class="keyword">import</span> {mapState, mapMutations} <span class="keyword">from</span><span class="string">'vuex'</span></span></span><br>
+						<span class="line"><span class="javascript"><span class="keyword">export</span><span class="keyword">default</span> {</span></span><br>
+						<span class="line">    computed: {</span><br>
+						<span class="line"><span class="javascript">        ...mapState([<span class="string">'count'</span>])</span></span><br>
+						<span class="line">    },</span><br>
+						<span class="line">    methods: {</span><br>
+						<span class="line"><span class="javascript">        ...mapMutations([<span class="string">'increment'</span>])</span></span><br>
+						<span class="line">    },</span><br>
+						<span class="line">}</span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				4、 任意组件 <code>B</code> 实现点击递减
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">p</span> @<span class="attr">click</span>=<span class="string">"decrement"</span>&gt;</span>click to decrement：{{count}}<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br>
+						<span class="line"><span class="javascript"><span class="keyword">import</span> {mapState, mapMutations} <span class="keyword">from</span><span class="string">'vuex'</span></span></span><br>
+						<span class="line"><span class="javascript"><span class="keyword">export</span><span class="keyword">default</span> {</span></span><br>
+						<span class="line">    computed: {</span><br>
+						<span class="line"><span class="javascript">        ...mapState([<span class="string">'count'</span>])</span></span><br>
+						<span class="line">    },</span><br>
+						<span class="line">    methods: {</span><br>
+						<span class="line"><span class="javascript">        ...mapMutations([<span class="string">'decrement'</span>])</span></span><br>
+						<span class="line">    },</span><br>
+						<span class="line">}</span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				以上只是用最简单的 <code>vuex</code> 配置去实现组件通信，当然真实项目中的配置肯定会更复杂，比如需要对 <code>State</code> 数据进行二次筛选会用到 <code>Getter</code>，然后如果需要异步的提交那么需要使用 <code>Action</code>，再比如如果模块很多，可以将 <code>store</code> 分模块进行状态管理。对于 <code>Vuex</code> 更多复杂的操作还是建议去看<a target="_blank" rel="noopener" href="https://vuex.vuejs.org/zh/">Vuex 官方文档</a>，然后多写例子。
+			</p>
+			<h3 id="Vue-observable实现mini-vuex"><a href="https://bubuzou.com/2020/09/21/vue-operate/#Vue-observable%E5%AE%9E%E7%8E%B0mini-vuex" class="headerlink" title="Vue.observable实现mini vuex"></a>Vue.observable实现mini vuex</h3>
+			<p>
+				这是一个 <code>Vue2.6</code> 中新增的 <code>API</code>，用来让一个对象可以响应。我们可以利用这个特点来实现一个小型的状态管理器。
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// store.js</span></span><br>
+						<span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span><span class="string">'vue'</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">const</span> state = Vue.observable({</span><br>
+						<span class="line">    count: <span class="number">0</span>,</span><br>
+						<span class="line">})</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">const</span> mutations = {</span><br>
+						<span class="line">    increment() {</span><br>
+						<span class="line">        state.count++</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">    decrement() {</span><br>
+						<span class="line">        state.count--</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- parent.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>{{ count }}<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br>
+						<span class="line"><span class="javascript"><span class="keyword">import</span> { state } <span class="keyword">from</span><span class="string">'../store'</span></span></span><br>
+						<span class="line"><span class="javascript"><span class="keyword">export</span><span class="keyword">default</span> {</span></span><br>
+						<span class="line">    computed: {</span><br>
+						<span class="line">        count() {</span><br>
+						<span class="line"><span class="javascript"><span class="keyword">return</span> state.count</span></span><br>
+						<span class="line">        }</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// child.vue</span></span><br>
+						<span class="line"><span class="keyword">import</span>  { mutations } <span class="keyword">from</span><span class="string">'../store'</span></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+						<span class="line">    methods: {</span><br>
+						<span class="line">        handleClick() {</span><br>
+						<span class="line">            mutations.increment()</span><br>
+						<span class="line">        }</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="refs-children-parent-root"><a href="https://bubuzou.com/2020/09/21/vue-operate/#refs-children-parent-root" class="headerlink" title="$refs/$children/$parent/$root"></a>$refs/$children/$parent/$root</h3>
+			<p>
+				通过给子组件定义 <code>ref</code> 属性可以使用 <code>$refs</code> 来直接操作子组件的方法和属性。
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span><span class="attr">ref</span>=<span class="string">"list"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				比如子组件有一个 <code>getList</code> 方法，可以通过如下方式进行调用，实现父到子的通信：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="built_in">this</span>.$refs.list.getList()</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				除了 <code>$refs</code> 外，其他3个都是自 <code>Vue</code> 实例创建后就会自动包含的属性，使用和上面的类似。
+			</p>
+			<h2 id="6类可以掌握的修饰符"><a href="https://bubuzou.com/2020/09/21/vue-operate/#6%E7%B1%BB%E5%8F%AF%E4%BB%A5%E6%8E%8C%E6%8F%A1%E7%9A%84%E4%BF%AE%E9%A5%B0%E7%AC%A6" class="headerlink" title="6类可以掌握的修饰符"></a>6类可以掌握的修饰符</h2>
+			<h3 id="表单修饰符"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E8%A1%A8%E5%8D%95%E4%BF%AE%E9%A5%B0%E7%AC%A6" class="headerlink" title="表单修饰符"></a>表单修饰符</h3>
+			<p>
+				表单类的修饰符都是和 <code>v-model</code> 搭配使用的，比如：<code>v-model.lazy</code>、<code>v-model-trim</code> 以及 <code>v-model.number</code> 等。
+			</p>
+			<ul>
+				<li>
+				<p>
+					<code>.lazy</code>：对表单输入的结果进行延迟响应，通常和 <code>v-model</code> 搭配使用。正常情况下在 <code>input</code> 里输入内容会在 <code>p</code> 标签里实时的展示出来，但是加上 <code>.lazy</code> 后则需要在输入框失去焦点的时候才触发响应。
+				</p>
+				<figure class="highlight html">
+				<table>
+				<tbody>
+				<tr>
+					<td class="gutter">
+						<pre>
+							<span class="line">1</span><br>
+							<span class="line">2</span><br>
+						</pre>
+					</td>
+					<td class="code">
+						<pre>
+							<span class="line"><span class="tag">&lt;<span class="name">input</span><span class="attr">type</span>=<span class="string">"text"</span><span class="attr">v-model.lazy</span>=<span class="string">"name"</span> /&gt;</span></span><br>
+							<span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>{{ name }}<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br>
+						</pre>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</figure>
+				</li>
+				<li>
+				<p>
+					<code>.trim</code>：过滤输入内容的首尾空格，这个和直接拿到字符串然后通过 <code>str.trim()</code> 去除字符串首尾空格是一个意思。
+				</p>
+				</li>
+				<li>
+				<p>
+					<code>.number</code>：如果输入的第一个字符是数字，那就只能输入数字，否则他输入的就是普通字符串。
+				</p>
+				</li>
+			</ul>
+			<h3 id="事件修饰符"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6" class="headerlink" title="事件修饰符"></a>事件修饰符</h3>
+			<p>
+				<code>Vue</code> 的事件修饰符是专门为 <code>v-on</code> 设计的，可以这样使用： <code>@click.stop="handleClick"</code>，还能串联使用：<code>@click.stop.prevent="handleClick"</code>。
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">div</span> @<span class="attr">click</span>=<span class="string">"doDiv"</span>&gt;</span></span><br>
+						<span class="line">    click div</span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">p</span> @<span class="attr">click</span>=<span class="string">"doP"</span>&gt;</span>click p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<ul>
+				<li>
+				<p>
+					<code>.stop</code>：阻止事件冒泡，和原生 <code>event.stopPropagation()</code> 是一样的效果。如上代码，当点击 <code>p</code> 标签的时候，<code>div</code> 上的点击事件也会触发，加上 <code>.stop</code> 后事件就不会往父级传递，那父级的事件就不会触发了。
+				</p>
+				</li>
+				<li>
+				<p>
+					<code>.prevent</code>：阻止默认事件，和原生的 <code>event.preventDefault()</code> 是一样的效果。比如一个带有 <code>href</code> 的链接上添加了点击事件，那么事件触发的时候也会触发链接的跳转，但是加上 <code>.prevent</code> 后就不会触发链接跳转了。
+				</p>
+				</li>
+				<li>
+				<p>
+					<code>.capture</code>：默认的事件流是：捕获阶段-目标阶段-冒泡阶段，即事件从最具体目标元素开始触发，然后往上冒泡。而加上 <code>.capture</code> 后则是反过来，外层元素先触发事件，然后往深层传递。
+				</p>
+				</li>
+				<li>
+				<p>
+					<code>.self</code>：只触发自身的事件，不会传递到父级，和 <code>.stop</code> 的作用有点类似。
+				</p>
+				</li>
+				<li>
+				<p>
+					<code>.once</code>：只会触发一次该事件。
+				</p>
+				</li>
+				<li>
+				<p>
+					<code>.passive</code>：当页面滚动的时候就会一直触发 <code>onScroll</code> 事件，这个其实是存在性能问题的，尤其是在移动端，当给他加上 <code>.passive</code> 后触发的就不会那么频繁了。
+				</p>
+				</li>
+				<li>
+				<p>
+					<code>.native</code>：现在在组件上使用 <code>v-on</code> 只会监听自定义事件 (组件用 <code>$emit</code> 触发的事件)。如果要监听根元素的原生事件，可以使用 <code>.native</code> 修饰符，比如如下的 <code>el-input</code>，如果不加 <code>.native</code> 当回车的时候就不会触发 <code>search</code> 函数。
+				</p>
+				<figure class="highlight html">
+				<table>
+				<tbody>
+				<tr>
+					<td class="gutter">
+						<pre>
+							<span class="line">1</span><br>
+						</pre>
+					</td>
+					<td class="code">
+						<pre>
+							<span class="line"><span class="tag">&lt;<span class="name">el-input</span><span class="attr">type</span>=<span class="string">"text"</span><span class="attr">v-model</span>=<span class="string">"name"</span> @<span class="attr">keyup.enter.native</span>=<span class="string">"search"</span>&gt;</span><span class="tag">&lt;/<span class="name">el-input</span>&gt;</span></span><br>
+						</pre>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</figure>
+				</li>
+			</ul>
+			<blockquote>
+				<p>
+					串联使用事件修饰符的时候，需要注意其顺序，同样2个修饰符进行串联使用，顺序不同，结果大不一样。<code>@click.prevent.self</code> 会阻止所有的点击事件，而 <code>@click.self.prevent</code> 只会阻止对自身元素的点击。
+				</p>
+			</blockquote>
+			<h3 id="鼠标按钮修饰符"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E9%BC%A0%E6%A0%87%E6%8C%89%E9%92%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6" class="headerlink" title="鼠标按钮修饰符"></a>鼠标按钮修饰符</h3>
+			<ul>
+				<li><code>.left</code>：鼠标左键点击；</li>
+				<li><code>.right</code>：鼠标右键点击；</li>
+				<li><code>.middle</code>：鼠标中键点击；</li>
+			</ul>
+			<h3 id="键盘按键修饰符"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E9%94%AE%E7%9B%98%E6%8C%89%E9%94%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6" class="headerlink" title="键盘按键修饰符"></a>键盘按键修饰符</h3>
+			<p>
+				<code>Vue</code> 提供了一些常用的按键码：
+			</p>
+			<ul>
+				<li><code>.enter</code></li>
+				<li><code>.tab</code></li>
+				<li><code>.delete</code> (捕获“删除”和“退格”键)</li>
+				<li><code>.esc</code></li>
+				<li><code>.space</code></li>
+				<li><code>.up</code></li>
+				<li><code>.down</code></li>
+				<li><code>.left</code></li>
+				<li><code>.right</code></li>
+			</ul>
+			<p>
+				另外，你也可以直接将 <code>KeyboardEvent.key</code> 暴露的任意有效按键名转换为 <code>kebab-case</code> 来作为修饰符，比如可以通过如下的代码来查看具体按键的键名是什么：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">input</span> @<span class="attr">keyup</span>=<span class="string">"onKeyUp"</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">onKeyUp(event) {</span><br>
+						<span class="line"><span class="built_in">console</span>.log(event.key)  <span class="comment">// 比如键盘的方向键向下就是 ArrowDown</span></span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="exact修饰符"><a href="https://bubuzou.com/2020/09/21/vue-operate/#exact%E4%BF%AE%E9%A5%B0%E7%AC%A6" class="headerlink" title=".exact修饰符"></a>.exact修饰符</h3>
+			<p>
+				<code>.exact</code> 修饰符允许你控制由精确的系统修饰符组合触发的事件。
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 即使 Alt 或 Shift 被一同按下时也会触发 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span><span class="attr">v-on:click.ctrl</span>=<span class="string">"onClick"</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">&lt;!-- 有且只有 Ctrl 被按下的时候才触发 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span><span class="attr">v-on:click.ctrl.exact</span>=<span class="string">"onCtrlClick"</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">&lt;!-- 没有任何系统修饰符被按下的时候才触发 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span><span class="attr">v-on:click.exact</span>=<span class="string">"onClick"</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="sync修饰符"><a href="https://bubuzou.com/2020/09/21/vue-operate/#sync%E4%BF%AE%E9%A5%B0%E7%AC%A6" class="headerlink" title=".sync修饰符"></a>.sync修饰符</h3>
+			<p>
+				<code>.sync</code> 修饰符常被用于子组件更新父组件数据。直接看下面的代码：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- parent.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span><span class="attr">:title.sync</span>=<span class="string">"title"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// child.vue</span></span><br>
+						<span class="line"><span class="built_in">this</span>.$emit(<span class="string">'update:title'</span>, <span class="string">'hello'</span>)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				子组件可以直接通过 <code>update:title</code> 的形式进行更新父组件中声明了 <code>.sync</code> 的 <code>prop</code>。<br>
+				上面父组件中的写法其实是下面这种写法的简写：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span><span class="attr">:title</span>=<span class="string">"title"</span> @<span class="attr">update:title</span>=<span class="string">"title = $event"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<blockquote>
+				<p>
+					注意带有 .sync 修饰符的 v-bind 不能和表达式一起使用
+				</p>
+			</blockquote>
+			<p>
+				如果需要设置多个 <code>prop</code>，比如：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span><span class="attr">:name.sync</span>=<span class="string">"name"</span><span class="attr">:age.sync</span>=<span class="string">"age"</span><span class="attr">:sex.sync</span>=<span class="string">"sex"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				可以通过 <code>v-bind.sync</code> 简写成这样：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span><span class="attr">v-bind.sync</span>=<span class="string">"person"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">person: {</span><br>
+						<span class="line">    name: <span class="string">'bubuzou'</span>,</span><br>
+						<span class="line">    age: <span class="number">21</span>,</span><br>
+						<span class="line">    sex: <span class="string">'male'</span>,</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				<code>Vue</code> 内部会自行进行解析把 <code>person</code> 对象里的每个属性都作为独立的 <code>prop</code> 传递进去，各自添加用于更新的 <code>v-on</code> 监听器。而从子组件进行更新的时候还是保持不变，比如：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="built_in">this</span>.$emit(<span class="string">'update:name'</span>, <span class="string">'hello'</span>)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h2 id="6种方式编写可复用模块"><a href="https://bubuzou.com/2020/09/21/vue-operate/#6%E7%A7%8D%E6%96%B9%E5%BC%8F%E7%BC%96%E5%86%99%E5%8F%AF%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97" class="headerlink" title="6种方式编写可复用模块"></a>6种方式编写可复用模块</h2>
+			<p>
+				今天需求评审了一个需求，需要实现一个详情页，这个详情页普通用户和管理员都能进去，但是展示的数据有稍有不同，但绝大部分是一样的；最主要的区别是详情对于普通用户是纯展示，而对于管理员要求能够编辑，然后管理员还有一些别的按钮权限等。需求看到这里，如果在排期的时候把用户的详情分给开发A做，而把管理员的详情分给B去做，那这样做的结果就是开发A写了一个详情页，开发B写了一个详情页，这在开发阶段、提测后的修改 <code>bug</code> 阶段以及后期迭代阶段，都需要同时维护这 2 个文件，浪费了时间浪费了人力，所以你可以从中意识到编写可复用模块的重要性。
+			</p>
+			<p>
+				而 <code>Vue</code> 作者尤大为了让开发者更好的编写可复用模块，提供了很多的手段，比如：组件、自定义指令、渲染函数、插件以及过滤器等。
+			</p>
+			<h3 id="组件"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E7%BB%84%E4%BB%B6" class="headerlink" title="组件"></a>组件</h3>
+			<p>
+				组件是 <code>Vue</code> 中最精髓的地方，也是我们平时编写可复用模块最常用的手段，但是由于这块内容篇幅很多，所以不在这里展开，后续会写相关的内容进行详述。
+			</p>
+			<h3 id="使用混入mixins"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E4%BD%BF%E7%94%A8%E6%B7%B7%E5%85%A5mixins" class="headerlink" title="使用混入mixins"></a>使用混入mixins</h3>
+			<p>
+				什么是混入呢？ 从代码结构上来看，混入其实就是半个组件，一个 <code>Vue</code> 组件可以包括 <code>template</code>、<code>script</code> 和 <code>style</code> 三部分，而混入其实就是 <code>script</code> 里面的内容。一个混入对象包含任意组件选项，比如 <code>data</code>、<code>methods</code>、<code>computed</code>、<code>watch</code> 、生命周期钩子函数、甚至是 <code>mixins</code> 自己等，混入被设计出来就是旨在提高代码的灵活性、可复用性。
+			</p>
+			<p>
+				什么时候应该使用混入呢？当可复用逻辑只是 <code>JS</code> 代码层面的，而无 <code>template</code> 的时候就可以考虑用混入了。比如需要记录用户在页面的停留的时间，那我们就可以把这段逻辑抽出来放在 <code>mixins</code> 里：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// mixins.js</span></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">const</span> statMixin = {</span><br>
+						<span class="line">    methods: {</span><br>
+						<span class="line">        enterPage() {},</span><br>
+						<span class="line">        leavePage() {},</span><br>
+						<span class="line">    },</span><br>
+						<span class="line">    mounted() {</span><br>
+						<span class="line"><span class="built_in">this</span>.enterPage()</span><br>
+						<span class="line">    },</span><br>
+						<span class="line">    beforeDestroyed() {</span><br>
+						<span class="line"><span class="built_in">this</span>.leavePage()</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line"></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				然后在需要统计页面停留时间的地方加上：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">import</span> { statMixin } <span class="keyword">from</span><span class="string">'../common/mixins'</span></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+						<span class="line">    mixins: [statMixin]</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				使用混入的时候要注意和组件选项的合并规则，可以分为如下三类：
+			</p>
+			<ul>
+				<li>
+				<p>
+					<code>data</code> 将进行递归合并，对于键名冲突的以组件数据为准：
+				</p>
+				<figure class="highlight js">
+				<table>
+				<tbody>
+				<tr>
+					<td class="gutter">
+						<pre>
+							<span class="line">1</span><br>
+							<span class="line">2</span><br>
+							<span class="line">3</span><br>
+							<span class="line">4</span><br>
+							<span class="line">5</span><br>
+							<span class="line">6</span><br>
+							<span class="line">7</span><br>
+							<span class="line">8</span><br>
+							<span class="line">9</span><br>
+							<span class="line">10</span><br>
+							<span class="line">11</span><br>
+							<span class="line">12</span><br>
+							<span class="line">13</span><br>
+							<span class="line">14</span><br>
+							<span class="line">15</span><br>
+							<span class="line">16</span><br>
+							<span class="line">17</span><br>
+							<span class="line">18</span><br>
+							<span class="line">19</span><br>
+							<span class="line">20</span><br>
+						</pre>
+					</td>
+					<td class="code">
+						<pre>
+							<span class="line"><span class="comment">// mixinA 的 data</span></span><br>
+							<span class="line">   data() {</span><br>
+							<span class="line">       obj: {</span><br>
+							<span class="line">           name: <span class="string">'hello'</span>,</span><br>
+							<span class="line">       },</span><br>
+							<span class="line">}</span><br>
+							<span class="line"></span><br>
+							<span class="line"><span class="comment">// component A</span></span><br>
+							<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+							<span class="line">       mixins: [mixinA],</span><br>
+							<span class="line">       data(){</span><br>
+							<span class="line">           obj: {</span><br>
+							<span class="line">               name: <span class="string">'bubuzou'</span>,</span><br>
+							<span class="line">               age: <span class="number">21</span></span><br>
+							<span class="line">           },</span><br>
+							<span class="line">       },</span><br>
+							<span class="line">       mounted() {</span><br>
+							<span class="line"><span class="built_in">console</span>.log( <span class="built_in">this</span>.obj )  <span class="comment">// { name: 'bubuzou', 'age': 21 }</span></span><br>
+							<span class="line">       }</span><br>
+							<span class="line">   }</span><br>
+						</pre>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</figure>
+				</li>
+				<li>
+				<p>
+					对于生命周期钩子函数将会合并成一个数组，混入对象的钩子将先被执行：
+				</p>
+				<figure class="highlight js">
+				<table>
+				<tbody>
+				<tr>
+					<td class="gutter">
+						<pre>
+							<span class="line">1</span><br>
+							<span class="line">2</span><br>
+							<span class="line">3</span><br>
+							<span class="line">4</span><br>
+							<span class="line">5</span><br>
+							<span class="line">6</span><br>
+							<span class="line">7</span><br>
+							<span class="line">8</span><br>
+							<span class="line">9</span><br>
+							<span class="line">10</span><br>
+							<span class="line">11</span><br>
+							<span class="line">12</span><br>
+							<span class="line">13</span><br>
+							<span class="line">14</span><br>
+							<span class="line">15</span><br>
+							<span class="line">16</span><br>
+							<span class="line">17</span><br>
+							<span class="line">18</span><br>
+							<span class="line">19</span><br>
+							<span class="line">20</span><br>
+							<span class="line">21</span><br>
+							<span class="line">22</span><br>
+						</pre>
+					</td>
+					<td class="code">
+						<pre>
+							<span class="line"><span class="comment">// mixin A</span></span><br>
+							<span class="line"><span class="keyword">const</span> mixinA = {</span><br>
+							<span class="line">    created() {</span><br>
+							<span class="line"><span class="built_in">console</span>.log( <span class="string">'第一个执行'</span> )</span><br>
+							<span class="line">    }</span><br>
+							<span class="line">}</span><br>
+							<span class="line"></span><br>
+							<span class="line"><span class="comment">// mixin B</span></span><br>
+							<span class="line"><span class="keyword">const</span> mixinB = {</span><br>
+							<span class="line">    mixins: [mixinA]</span><br>
+							<span class="line">    created() {</span><br>
+							<span class="line"><span class="built_in">console</span>.log( <span class="string">'第二个执行'</span> )</span><br>
+							<span class="line">    }</span><br>
+							<span class="line">}</span><br>
+							<span class="line"></span><br>
+							<span class="line"><span class="comment">// component A</span></span><br>
+							<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+							<span class="line">    mixins: [mixinB]</span><br>
+							<span class="line">    created() {</span><br>
+							<span class="line"><span class="built_in">console</span>.log( <span class="string">'最后一个执行'</span> )</span><br>
+							<span class="line">    }</span><br>
+							<span class="line">}</span><br>
+						</pre>
+					</td>
+				</tr>
+				</tbody>
+				</table>
+				</figure>
+				</li>
+				<li>
+				<p>
+					值为对象的选项，例如 <code>methods</code>、<code>components</code> 和 <code>directives</code>，将被合并为同一个对象。两个对象键名冲突时，取组件对象的键值对。
+				</p>
+				</li>
+			</ul>
+			<h3 id="自定义指令"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4" class="headerlink" title="自定义指令"></a>自定义指令</h3>
+			<p>
+				除了 <code>Vue</code> 内置的一些指令比如 <code>v-model</code>、<code>v-if</code> 等，<code>Vue</code> 还允许我们自定义指令。在 <code>Vue2.0</code> 中，代码复用和抽象的主要形式是组件。然而，有的情况下，你仍然需要对普通 <code>DOM</code> 元素进行底层操作，这时候就会用到自定义指令。比如我们可以通过自定义一个指令来控制按钮的权限。我们期望设计一个如下形式的指令来控制按钮权限：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span><span class="attr">v-auth</span>=<span class="string">"['user']"</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				通过在按钮的指令里传入一组权限，如果该按钮只有 <code>admin</code> 权限才可以提交，而我们传入一个别的权限，比如 <code>user</code>，那这个按钮就不应该显示了。<br>
+				接下来我们去注册一个全局的指令：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// auth.js</span></span><br>
+						<span class="line"><span class="keyword">const</span> AUTH_LIST = [<span class="string">'admin'</span>]</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="function"><span class="keyword">function</span><span class="title">checkAuth</span>(<span class="params">auths</span>) </span>{</span><br>
+						<span class="line"><span class="keyword">return</span> AUTH_LIST.some(<span class="function"><span class="params">item</span> =&gt;</span> auths.includes(item))</span><br>
+						<span class="line">}</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="function"><span class="keyword">function</span><span class="title">install</span>(<span class="params">Vue, options = {}</span>) </span>{</span><br>
+						<span class="line">    Vue.directive(<span class="string">'auth'</span>, {</span><br>
+						<span class="line">        inserted(el, binding) {</span><br>
+						<span class="line"><span class="keyword">if</span> (!checkAuth(binding.value)) {</span><br>
+						<span class="line">                el.parentNode &amp;&amp; el.parentNode.removeChild(el)</span><br>
+						<span class="line">            }</span><br>
+						<span class="line">        }</span><br>
+						<span class="line">    })</span><br>
+						<span class="line">}</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> { install }</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				然后我们需要在 <code>main.js</code> 里通过安装插件的方式来启用这个指令：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">import</span> Auth <span class="keyword">from</span><span class="string">'./utils/auth'</span></span><br>
+						<span class="line">Vue.use(Auth)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="使用渲染函数"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E4%BD%BF%E7%94%A8%E6%B8%B2%E6%9F%93%E5%87%BD%E6%95%B0" class="headerlink" title="使用渲染函数"></a>使用渲染函数</h3>
+			<p>
+				这里将使用渲染函数实现上面介绍过的的权限按钮。<br>
+				使用方式如下，把需要控制权限的按钮包在权限组件 <code>authority</code> 里面，如果有该权限就显示，没有就不显示。
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">authority</span><span class="attr">:auth</span>=<span class="string">"['admin']"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">authority</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				然后我们用渲染函数去实现一个 <code>authority</code> 组件：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+						<span class="line">19</span><br>
+						<span class="line">20</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">&lt;script&gt;</span><br>
+						<span class="line"><span class="keyword">const</span> AUTH_LIST = [<span class="string">'admin'</span>, <span class="string">'user'</span>, <span class="string">'org'</span>]</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="function"><span class="keyword">function</span><span class="title">checkAuth</span>(<span class="params">auths</span>) </span>{</span><br>
+						<span class="line"><span class="keyword">return</span> AUTH_LIST.some(<span class="function"><span class="params">item</span> =&gt;</span> auths.includes(item))</span><br>
+						<span class="line">}</span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+						<span class="line">    functional: <span class="literal">true</span>,</span><br>
+						<span class="line">    props: {</span><br>
+						<span class="line">        auth: {</span><br>
+						<span class="line">            type: <span class="built_in">Array</span>,</span><br>
+						<span class="line">            required: <span class="literal">true</span></span><br>
+						<span class="line">        }</span><br>
+						<span class="line">    },</span><br>
+						<span class="line">    render(h, context) {</span><br>
+						<span class="line"><span class="keyword">const</span> { props,  scopedSlots} = context</span><br>
+						<span class="line"><span class="keyword">return</span> checkAuth(props.auth) ? scopedSlots.default() : <span class="literal">null</span></span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line">&lt;/script&gt;</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				全局注册这个组件：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// main.js</span></span><br>
+						<span class="line"><span class="keyword">import</span> Authority <span class="keyword">from</span><span class="string">'./components/authority'</span></span><br>
+						<span class="line">Vue.component(<span class="string">'authority'</span>, Authority)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="使用过滤器"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E4%BD%BF%E7%94%A8%E8%BF%87%E6%BB%A4%E5%99%A8" class="headerlink" title="使用过滤器"></a>使用过滤器</h3>
+			<p>
+				<code>Vue</code> 提供了自定义过滤器的功能，主要应用场景是想要将数据以某种格式展示出来，而原始数据又不符合这种格式的时候。比如有一组关于人的数据，如下：
+			</p>
+			<figure class="highlight">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">[{</span><br>
+						<span class="line">    name: '张茂',</span><br>
+						<span class="line">    population: 'young',</span><br>
+						<span class="line">}, {</span><br>
+						<span class="line">    name: '王丽',</span><br>
+						<span class="line">    population: 'middle',</span><br>
+						<span class="line">}, {</span><br>
+						<span class="line">    name: '郝鹏程',</span><br>
+						<span class="line">    population: 'child',</span><br>
+						<span class="line">}]</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				其中有一项是关于按照年龄划分的群体类型 <code>population</code>，而它是用 <code>code</code> 进行标识的，我们希望在展示的时候能够显示成对应的中文意思，比如 <code>young</code> 显示成青年。那我们就可以定义一个如下的局部过滤器：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+						<span class="line">    filters: {</span><br>
+						<span class="line">        popuFilters(value) {</span><br>
+						<span class="line"><span class="keyword">if</span> (!value) { <span class="keyword">return</span><span class="string">'未知'</span> }</span><br>
+						<span class="line"><span class="keyword">let</span> index = [<span class="string">'child'</span>, <span class="string">'lad'</span>, <span class="string">'young'</span>, <span class="string">'middle'</span>, <span class="string">'wrinkly'</span>].indexOf(value)</span><br>
+						<span class="line"><span class="keyword">return</span> index &gt; <span class="number">0</span> &amp;&amp; [<span class="string">'儿童'</span>, <span class="string">'少年'</span>, <span class="string">'青年'</span>, <span class="string">'中年'</span>, <span class="string">'老年'</span>][index] || <span class="string">'未知'</span></span><br>
+						<span class="line">        }</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				使用过滤器的时候只要在 <code>template</code> 中这样使用即可：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>{{ item.population | popuFilters }}<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="自定义插件"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8F%92%E4%BB%B6" class="headerlink" title="自定义插件"></a>自定义插件</h3>
+			<p>
+				在某些情况下，我们封装的内容可能不需要使用者对其内部代码结构进行了解，其只需要熟悉我们提供出来的相应方法和 <code>api</code> 即可，这需要我们更系统性的将公用部分逻辑封装成插件，来为项目添加全局功能，比如常见的 <code>loading</code> 功能、弹框功能等。
+			</p>
+			<p>
+				开发 <code>Vue</code> 的插件应该暴露一个 <code>install</code> 方法。这个方法的第一个参数是 <code>Vue</code> 构造器，第二个参数是一个可选的选项对象。可以通过如下4种方式来自定义插件：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+						<span class="line">19</span><br>
+						<span class="line">20</span><br>
+						<span class="line">21</span><br>
+						<span class="line">22</span><br>
+						<span class="line">23</span><br>
+						<span class="line">24</span><br>
+						<span class="line">25</span><br>
+						<span class="line">26</span><br>
+						<span class="line">27</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">MyPlugin.install = <span class="function"><span class="keyword">function</span> (<span class="params">Vue, options</span>) </span>{</span><br>
+						<span class="line"><span class="comment">// 1. 添加全局方法或 property</span></span><br>
+						<span class="line">  Vue.myGlobalMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br>
+						<span class="line"><span class="comment">// 逻辑...</span></span><br>
+						<span class="line">  }</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">// 2. 添加全局资源</span></span><br>
+						<span class="line">  Vue.directive(<span class="string">'my-directive'</span>, {</span><br>
+						<span class="line">    bind (el, binding, vnode, oldVnode) {</span><br>
+						<span class="line"><span class="comment">// 逻辑...</span></span><br>
+						<span class="line">    }</span><br>
+						<span class="line">    ...</span><br>
+						<span class="line">  })</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">// 3. 注入组件选项</span></span><br>
+						<span class="line">  Vue.mixin({</span><br>
+						<span class="line">    created: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br>
+						<span class="line"><span class="comment">// 逻辑...</span></span><br>
+						<span class="line">    }</span><br>
+						<span class="line">    ...</span><br>
+						<span class="line">  })</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">// 4. 添加实例方法</span></span><br>
+						<span class="line">  Vue.prototype.$myMethod = <span class="function"><span class="keyword">function</span> (<span class="params">methodOptions</span>) </span>{</span><br>
+						<span class="line"><span class="comment">// 逻辑...</span></span><br>
+						<span class="line">  }</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				然后需要在入口文件，比如 <code>main.js</code> 中注册插件：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">import</span> MyPlugin <span class="keyword">from</span><span class="string">'./plugins/plugins.js'</span></span><br>
+						<span class="line">Vue.use(MyPlugin)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h2 id="3种方式手写优雅代码"><a href="https://bubuzou.com/2020/09/21/vue-operate/#3%E7%A7%8D%E6%96%B9%E5%BC%8F%E6%89%8B%E5%86%99%E4%BC%98%E9%9B%85%E4%BB%A3%E7%A0%81" class="headerlink" title="3种方式手写优雅代码"></a>3种方式手写优雅代码</h2>
+			<p>
+				平时写项目的时候我们都是在第一时间完成需求功能的开发、提测修改 <code>bug</code> 等，然后开开心心的等待着发布生产以为没啥事情了。其实回过头来细细的看我们平时写的代码，可能会发现很多地方都是值得优化的，比如对于很多重复性很强的代码，比如对于某些写得很繁杂的地方。优雅的代码可以化机械为自动、化繁为简，看人开了如沐春风，心情大好。这里列了几个在 <code>Vue</code> 中一定会遇到的问题，然后通过优雅的方式进行解决。
+			</p>
+			<h3 id="自动化导入模块"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97" class="headerlink" title="自动化导入模块"></a>自动化导入模块</h3>
+			<p>
+				在开发一个稍微大点的项目的时候，会习惯将路由按照模块来划分，然后就可能会出现如下这种代码：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+						<span class="line">19</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// router.js</span></span><br>
+						<span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span><span class="string">'vue'</span></span><br>
+						<span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span><span class="string">'vue-router'</span></span><br>
+						<span class="line"><span class="comment">// 导入了一大堆路由文件</span></span><br>
+						<span class="line"><span class="keyword">import</span> mediator <span class="keyword">from</span><span class="string">'./mediator'</span></span><br>
+						<span class="line"><span class="keyword">import</span> judges <span class="keyword">from</span><span class="string">'./judges'</span></span><br>
+						<span class="line"><span class="keyword">import</span> disputeMediation <span class="keyword">from</span><span class="string">'./disputeMediation'</span></span><br>
+						<span class="line"><span class="keyword">import</span> onlineMediation <span class="keyword">from</span><span class="string">'./onlineMediation'</span></span><br>
+						<span class="line"><span class="keyword">import</span> useraction <span class="keyword">from</span><span class="string">'./useraction'</span></span><br>
+						<span class="line"><span class="keyword">import</span> organcenter <span class="keyword">from</span><span class="string">'./organcenter'</span></span><br>
+						<span class="line"><span class="keyword">import</span> admin <span class="keyword">from</span><span class="string">'./admin'</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">let</span> routeList = []</span><br>
+						<span class="line">routeList.push(mediator, judges, disputeMediation, onlineMediation, useraction, organcenter, admin)</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span><span class="keyword">new</span> Router({</span><br>
+						<span class="line">    mode: <span class="string">'history'</span>,</span><br>
+						<span class="line">    routes: routeList,</span><br>
+						<span class="line">})</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				其实真实的远远不止这么点，就我本地项目而言就有20几个路由文件，写了一大堆的导入代码，显得很臃肿，更无奈的是每当需要新增一个路由模块，还得再次 <code>import</code> 再次 <code>push</code>，那么有没有什么办法可以解决这个问题呢？答案自然是有的。
+			</p>
+			<p>
+				利用 <code>webpack</code> 的 <a target="_blank" rel="noopener" href="https://webpack.js.org/guides/dependency-management/#requirecontext"><code>require.context</code></a> 就可以很优雅的解决这个问题，使用语法如下：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="built_in">require</span>.context(</span><br>
+						<span class="line">    directory,  <span class="comment">// 搜索的目录</span></span><br>
+						<span class="line">    useSubdirectories = <span class="literal">true</span>,  <span class="comment">// 是否搜索子目录</span></span><br>
+						<span class="line">    regExp = <span class="regexp">/^\.\/.*$/</span>,  <span class="comment">// 匹配的目标文件格式</span></span><br>
+						<span class="line">    mode = <span class="string">'sync'</span><span class="comment">// 同步还是异步</span></span><br>
+						<span class="line">)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				有了这个语法，我们就能很容易的写出下面的代码：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span><span class="string">'vue'</span></span><br>
+						<span class="line"><span class="keyword">import</span> Router <span class="keyword">from</span><span class="string">'vue-router'</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">let</span> routeList = []</span><br>
+						<span class="line"><span class="keyword">let</span> importAll = <span class="built_in">require</span>.context(<span class="string">'@/publicResource/router'</span>, <span class="literal">false</span>, <span class="regexp">/\.js$/</span>)</span><br>
+						<span class="line">importAll.keys().map(<span class="function"><span class="params">path</span> =&gt;</span> {</span><br>
+						<span class="line"><span class="comment">// 因为 index.js 也在 @/publicResource/router 目录下，所以需要排除</span></span><br>
+						<span class="line"><span class="keyword">if</span> (!path.includes(<span class="string">'index.js'</span>)) {</span><br>
+						<span class="line"><span class="comment">//兼容处理：.default 获取 ES6 规范暴露的内容; 后者获取 commonJS 规范暴露的内容</span></span><br>
+						<span class="line"><span class="keyword">let</span> router = importAll(path).default || importAll(path)</span><br>
+						<span class="line">        routeList(router)</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">})</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span><span class="keyword">new</span> Router({</span><br>
+						<span class="line">    mode: <span class="string">'history'</span>,</span><br>
+						<span class="line">    routes: routeList,</span><br>
+						<span class="line">})</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				其实不仅仅只是用在导入路由模块这里，对于项目里任何需要导入大量本地模块的地方都可以使用这种方式来解决。
+			</p>
+			<h3 id="模块化注册插件"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E6%A8%A1%E5%9D%97%E5%8C%96%E6%B3%A8%E5%86%8C%E6%8F%92%E4%BB%B6" class="headerlink" title="模块化注册插件"></a>模块化注册插件</h3>
+			<p>
+				相信写 <code>Vue</code> 的同学们都知道 <code>element-ui</code> 这个组件库，在使用这个组件库的时候大部分都是只使用某些个别的组件，所以基本上都是按需引入需要的组件，然后就有如下一堆 <code>Vue.use()</code> 的代码：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// main.js</span></span><br>
+						<span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span><span class="string">'vue'</span></span><br>
+						<span class="line"><span class="keyword">import</span> {</span><br>
+						<span class="line">    Input,</span><br>
+						<span class="line">    Radio,</span><br>
+						<span class="line">    RadioGroup,</span><br>
+						<span class="line">    Checkbox,</span><br>
+						<span class="line">    CheckboxGroup,</span><br>
+						<span class="line">    Select</span><br>
+						<span class="line"><span class="comment">// 还有很多组件</span></span><br>
+						<span class="line">} <span class="keyword">from</span><span class="string">'element-ui'</span></span><br>
+						<span class="line"></span><br>
+						<span class="line">Vue.use(Input)</span><br>
+						<span class="line">Vue.use(Radio)</span><br>
+						<span class="line">Vue.use(RadioGroup)</span><br>
+						<span class="line">Vue.use(Checkbox)</span><br>
+						<span class="line">Vue.use(CheckboxGroup)</span><br>
+						<span class="line">Vue.use(Select)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				这样写是没任何问题的，就是看着不够简洁舒服，那更优雅的做法是把这块逻辑抽到一个文件里，然后通过注册插件的方式来使用他们：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+						<span class="line">19</span><br>
+						<span class="line">20</span><br>
+						<span class="line">21</span><br>
+						<span class="line">22</span><br>
+						<span class="line">23</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// elementComponent.js</span></span><br>
+						<span class="line"><span class="keyword">import</span> {</span><br>
+						<span class="line">    Input,</span><br>
+						<span class="line">    Radio,</span><br>
+						<span class="line">    RadioGroup,</span><br>
+						<span class="line">    Checkbox,</span><br>
+						<span class="line">    CheckboxGroup,</span><br>
+						<span class="line">    Select</span><br>
+						<span class="line"><span class="comment">// 还有很多组件</span></span><br>
+						<span class="line">} <span class="keyword">from</span><span class="string">'element-ui'</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">const</span> components = {</span><br>
+						<span class="line">    Input,</span><br>
+						<span class="line">    Radio,</span><br>
+						<span class="line">    RadioGroup,</span><br>
+						<span class="line">    Checkbox,</span><br>
+						<span class="line">    CheckboxGroup,</span><br>
+						<span class="line">    Select</span><br>
+						<span class="line">}</span><br>
+						<span class="line"><span class="function"><span class="keyword">function</span><span class="title">install</span>(<span class="params">Vue</span>)</span>{</span><br>
+						<span class="line"><span class="built_in">Object</span>.keys(components).forEach(<span class="function"><span class="params">key</span> =&gt;</span> Vue.use(components[key]))</span><br>
+						<span class="line">}</span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> { install }</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				然后在 <code>main.js</code> 里使用这个插件：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// main.js</span></span><br>
+						<span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span><span class="string">'vue'</span></span><br>
+						<span class="line"><span class="keyword">import</span> elementComponent <span class="keyword">from</span><span class="string">'./config/elementComponent'</span></span><br>
+						<span class="line">Vue.use(elementComponent)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="优雅导出请求接口"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E4%BC%98%E9%9B%85%E5%AF%BC%E5%87%BA%E8%AF%B7%E6%B1%82%E6%8E%A5%E5%8F%A3" class="headerlink" title="优雅导出请求接口"></a>优雅导出请求接口</h3>
+			<p>
+				不知道大伙是如何定义请求接口的，就我目前这个项目而言，是这么做的：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// api.js</span></span><br>
+						<span class="line"><span class="keyword">import</span> http <span class="keyword">from</span><span class="string">'./config/httpServer.js'</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">/* 登入页面获取公钥 */</span></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">const</span> getPublicKey = <span class="function">(<span class="params">data</span>) =&gt;</span> {</span><br>
+						<span class="line"><span class="keyword">return</span> http({ <span class="attr">url</span>: <span class="string">'/userGateway/user/getPublicKey'</span> }, data)</span><br>
+						<span class="line">}</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">// 用户登录</span></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">const</span> login = <span class="function"><span class="params">data</span> =&gt;</span> {</span><br>
+						<span class="line"><span class="keyword">return</span> http({ <span class="attr">url</span>: <span class="string">'/userGateway/userSentry/login'</span> }, data)</span><br>
+						<span class="line">}</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">// 验证码登录</span></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">const</span> loginByCode = <span class="function"><span class="params">data</span> =&gt;</span> {</span><br>
+						<span class="line"><span class="keyword">return</span> http({ <span class="attr">url</span>: <span class="string">'/userGateway/userSentry/loginByCode'</span> }, data)</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				在组件中使用接口：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">&lt;script&gt;</span><br>
+						<span class="line"><span class="keyword">import</span> { getPublicKey } <span class="keyword">from</span><span class="string">'./config/api.js'</span></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+						<span class="line">    mounted() {</span><br>
+						<span class="line">        getPublicKey().then(<span class="function"><span class="params">res</span> =&gt;</span> {</span><br>
+						<span class="line"><span class="comment">// xxx</span></span><br>
+						<span class="line">        }).catch(<span class="function"><span class="params">err</span> =&gt;</span> {</span><br>
+						<span class="line"><span class="comment">// xxx</span></span><br>
+						<span class="line">        })</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line">&lt;/script&gt;</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				这一切都很正常，但，我们这个项目总共有200多个接口，按照上面这种定义方式的话，一个接口定义加上空行需要占用 5 行，所以如果把全部接口都定义到这个 <code>api.js</code> 里需要占用 1000 行左右，看了实在让人心很慌呀。所以觉得应该这个地方应该可以优化一下。
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">/userGateway/user/getPublicKey</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				上面这是一个后端给接口路径，斜杆把这个路径划分成 3 个子串，而最后一个子串必定是唯一的，所以我们可以从中做文章。于是乎就有了下面的代码：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// api.js</span></span><br>
+						<span class="line"><span class="keyword">const</span> apiList = [</span><br>
+						<span class="line"><span class="string">'/userGateway/user/getPublicKey'</span>,  <span class="comment">// 登入页面获取公钥</span></span><br>
+						<span class="line"><span class="string">'/userGateway/userSentry/login'</span>,  <span class="comment">// 用户登录</span></span><br>
+						<span class="line"><span class="string">'/userGateway/userSentry/loginByCode'</span>,  <span class="comment">// 验证码登录</span></span><br>
+						<span class="line">]</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="keyword">let</span> apiName, API = {}</span><br>
+						<span class="line">apiList.forEach(<span class="function"><span class="params">path</span> =&gt;</span> {</span><br>
+						<span class="line"><span class="comment">// 使用正则取到接口路径的最后一个子串，比如: getPublicKey</span></span><br>
+						<span class="line">    apiName = <span class="regexp">/(?&lt;=\/)[^/]+$/</span>.exec(path)[<span class="number">0</span>]</span><br>
+						<span class="line">    API[apiName] = <span class="function">(<span class="params">data</span>) =&gt;</span> {</span><br>
+						<span class="line"><span class="keyword">return</span> http({<span class="attr">url</span>: path}, data)</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">})</span><br>
+						<span class="line"><span class="keyword">export</span> { API }</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				这样大概就把定义一个接口需要占用 5 行缩小到只需要 1 行了，大大减小了文件内容。在浏览这个文件的时候，我的鼠标滚轮也不会一直在滚滚滚了。
+			</p>
+			<p>
+				如果是这样定义接口的话，那在使用的时候还需要做点变化的：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">&lt;script&gt;</span><br>
+						<span class="line"><span class="keyword">import</span> { API } <span class="keyword">from</span><span class="string">'./config/api.js'</span></span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+						<span class="line">    mounted() {</span><br>
+						<span class="line">        API.getPublicKey().then(<span class="function"><span class="params">res</span> =&gt;</span> {</span><br>
+						<span class="line"><span class="comment">// xxx</span></span><br>
+						<span class="line">        }).catch(<span class="function"><span class="params">err</span> =&gt;</span> {</span><br>
+						<span class="line"><span class="comment">// xxx</span></span><br>
+						<span class="line">        })</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line">&lt;/script&gt;</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h2 id="4种-event传参方式"><a href="https://bubuzou.com/2020/09/21/vue-operate/#4%E7%A7%8D-event%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F" class="headerlink" title="4种$event传参方式"></a>4种$event传参方式</h2>
+			<p>
+				在进行实际项目开发的时候经常会需要通过事件传递参数，这里总结了4种应用场景。
+			</p>
+			<h3 id="用于组件通信"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E7%94%A8%E4%BA%8E%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1" class="headerlink" title="用于组件通信"></a>用于组件通信</h3>
+			<p>
+				比如子组件通过 <code>$emit</code> 来调用父组件方法的时候，可以在父组件中用 <code>$event</code> 接收到从子组件传递过来的参数：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 子组件 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"$emit('changeText', '18px')"</span>&gt;</span>点击加大字号<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 父组件 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">blog-post</span> @<span class="attr">changeText</span>=<span class="string">"changeText('article', $event)"</span>&gt;</span><span class="tag">&lt;/<span class="name">blog-post</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">changeText(type, value) {</span><br>
+						<span class="line"><span class="built_in">console</span>.log(type, value)  <span class="comment">// 'article' '18px'</span></span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				如果子组件传递过来的参数有多个，这个时候用 <code>$event</code> 就不太行了，此时可以用 <code>arguments</code> 代替：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 子组件 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"$emit('changeText', 'red', '18px')"</span>&gt;</span>点击改变样式<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 父组件 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">blog-post</span> @<span class="attr">changeText</span>=<span class="string">"changeText(...arguments, 'article')"</span>&gt;</span><span class="tag">&lt;/<span class="name">blog-post</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">changeText(...value) {</span><br>
+						<span class="line"><span class="built_in">console</span>.log( value )  <span class="comment">// ['red', '18px', 'article']</span></span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="传递原生DOM事件对象"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E4%BC%A0%E9%80%92%E5%8E%9F%E7%94%9FDOM%E4%BA%8B%E4%BB%B6%E5%AF%B9%E8%B1%A1" class="headerlink" title="传递原生DOM事件对象"></a>传递原生DOM事件对象</h3>
+			<p>
+				比如我们需要获取到当前的点击元素，就可以通过给点击事件传递 <code>$event</code> 参数：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"submit('first', $event)"</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">submit(type, event) {</span><br>
+						<span class="line"><span class="keyword">const</span> target = event.target.tagName</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="用于第三方类库事件回调"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E7%94%A8%E4%BA%8E%E7%AC%AC%E4%B8%89%E6%96%B9%E7%B1%BB%E5%BA%93%E4%BA%8B%E4%BB%B6%E5%9B%9E%E8%B0%83" class="headerlink" title="用于第三方类库事件回调"></a>用于第三方类库事件回调</h3>
+			<p>
+				比如有一个组件里使用了好几个 <code>element-ui</code> 的分页组件，每个分页都有一个 <code>current-change</code> 事件，用来处理当分页改变之后的事情，这样的话我们就需要写多个回调函数，但是如果用以下方式，我们就也可以只写一个函数，通过 <code>type</code> 来判断是哪个分页的回调，而 <code>$event</code> 则用来传递 <code>current-change</code> 回调默认的参数：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 页面列表的分页 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">el-pagination</span></span></span><br>
+						<span class="line"><span class="tag">    @<span class="attr">current-change</span>=<span class="string">"changePage('main', $event)"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">el-pagination</span>&gt;</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">&lt;!-- 弹窗A列表的分页 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">el-pagination</span></span></span><br>
+						<span class="line"><span class="tag">    @<span class="attr">current-change</span>=<span class="string">"changePage('modalA', $event)"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">el-pagination</span>&gt;</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="comment">&lt;!-- 弹窗B列表的分页 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">el-pagination</span></span></span><br>
+						<span class="line"><span class="tag">    @<span class="attr">current-change</span>=<span class="string">"changePage('modalB', $event)"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">el-pagination</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">changePage(type, page) {</span><br>
+						<span class="line"><span class="keyword">const</span> types = [<span class="string">'main'</span>, <span class="string">'modalA'</span>, <span class="string">'modalB'</span>]</span><br>
+						<span class="line">    types[type] &amp;&amp; (<span class="built_in">this</span>[types[type]].pageIndex = page) &amp;&amp; <span class="built_in">this</span>.getList(type)</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="使用箭头函数处理"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E5%A4%84%E7%90%86" class="headerlink" title="使用箭头函数处理"></a>使用箭头函数处理</h3>
+			<p>
+				对于第三种场景，使用第三方类库组件的时候，需要给事件回调增加额外的参数，如果默认的回调参数只有1个那么我们就可以使用上面的那种方式，但是如果回调参数有多个的话，用 <code>$event</code> 就不好处理了，可以使用箭头函数。比如文件上传的时候，有个 <code>on-change</code> 属性，当文件变化的时候就会触发回调，正常情况下我们这样写是没问题的：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">el-upload</span><span class="attr">:on-change</span>=<span class="string">"changeFile"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">el-button</span>&gt;</span>上传<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">el-upload</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">changeFile(file, fileList) {}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				但是如果一个组件里有多个文件上传，而我们又不想写多个 <code>changeFile</code>，那就需要传递额外的参数 <code>type</code> 了 ：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">el-upload</span><span class="attr">:on-change</span>=<span class="string">"(file, fileList) =&gt; changeFile('org', file, fileList)"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">el-button</span>&gt;</span>上传<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">el-upload</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">changeFile(type, file, fileList) {}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h2 id="3种深入watch的用法"><a href="https://bubuzou.com/2020/09/21/vue-operate/#3%E7%A7%8D%E6%B7%B1%E5%85%A5watch%E7%9A%84%E7%94%A8%E6%B3%95" class="headerlink" title="3种深入watch的用法"></a>3种深入watch的用法</h2>
+			<h3 id="立即执行"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C" class="headerlink" title="立即执行"></a>立即执行</h3>
+			<p>
+				<code>watch</code> 是 <code>Vue</code> 中的侦听器，可以侦听一个 <code>Vue</code> 实例上的数据，当数据变动的时候，就会触发该侦听器。所以他的应用场景就是：当某个数据变动后需要做什么的时候就可以使用 <code>watch</code> 啦。<br>
+				对于 <code>watch</code>，平常我们写得最多的估计是如下这种写法：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">watch: {</span><br>
+						<span class="line">    list: <span class="function"><span class="keyword">function</span>(<span class="params">val</span>) </span>{</span><br>
+						<span class="line"><span class="built_in">this</span>.getMsg()</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				如果我们希望组件初始化的时候就执行一次 <code>getMsg</code> 方法，可以直接在 <code>mounted</code> 里调用：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">mounted() {</span><br>
+						<span class="line"><span class="built_in">this</span>.getMsg()</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				其实，还有一种更加简便的写法，通过给 <code>watch</code> 设置 <code>immediate: true</code> ，即可：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">watch: {</span><br>
+						<span class="line">    list: {</span><br>
+						<span class="line">        handler(val) {  <span class="comment">// 注意别写错成 handle</span></span><br>
+						<span class="line"><span class="built_in">this</span>.getMsg()</span><br>
+						<span class="line">        },</span><br>
+						<span class="line">        immediate: <span class="literal">true</span></span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="深度监听"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E6%B7%B1%E5%BA%A6%E7%9B%91%E5%90%AC" class="headerlink" title="深度监听"></a>深度监听</h3>
+			<p>
+				侦听器对于属性变更后会自动调用一次，但是仅限于该属性本身，如果变更的是属性的属性，则不会触发侦听回调，如果想要实现这个功能可以给 <code>watch</code> 加上 ‘deep: true’ 即可：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">watch: {</span><br>
+						<span class="line">    obj: {</span><br>
+						<span class="line">        handler(val) { <span class="comment">// do something },</span></span><br>
+						<span class="line">        deep: <span class="literal">true</span></span><br>
+						<span class="line">    }</span><br>
+						<span class="line">},</span><br>
+						<span class="line">mounted() {</span><br>
+						<span class="line"><span class="built_in">this</span>.obj.name = <span class="string">'bubuzou'</span><span class="comment">// 将触发 handler</span></span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="多个handlers"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E5%A4%9A%E4%B8%AAhandlers" class="headerlink" title="多个handlers"></a>多个handlers</h3>
+			<p>
+				实际上，<code>watch</code> 可以设置为数组，支持类型为 <code>String</code>、<code>Object</code> 和 <code>Function</code>。触发后，多个处理函数都将被调用。
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">watch: {</span><br>
+						<span class="line">    obj: [</span><br>
+						<span class="line"><span class="string">'print'</span>,</span><br>
+						<span class="line">        {</span><br>
+						<span class="line">            handler: <span class="string">'print'</span>,</span><br>
+						<span class="line">            deep: <span class="literal">true</span></span><br>
+						<span class="line">        },</span><br>
+						<span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">val, oldValue</span>) </span>{</span><br>
+						<span class="line"><span class="built_in">console</span>.log(val)</span><br>
+						<span class="line">        }</span><br>
+						<span class="line">    ]</span><br>
+						<span class="line">},</span><br>
+						<span class="line">methods: {</span><br>
+						<span class="line">    print() {</span><br>
+						<span class="line"><span class="built_in">console</span>.log(<span class="built_in">this</span>.obj)</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h2 id="5个其他开发小技巧"><a href="https://bubuzou.com/2020/09/21/vue-operate/#5%E4%B8%AA%E5%85%B6%E4%BB%96%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7" class="headerlink" title="5个其他开发小技巧"></a>5个其他开发小技巧</h2>
+			<p>
+				掌握 <code>Vue</code> 的开发小技巧，在一些特定的场景下真的很管用，这里列了一些常用的小技巧。
+			</p>
+			<h3 id="函数式组件实现零时变量"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BB%84%E4%BB%B6%E5%AE%9E%E7%8E%B0%E9%9B%B6%E6%97%B6%E5%8F%98%E9%87%8F" class="headerlink" title="函数式组件实现零时变量"></a>函数式组件实现零时变量</h3>
+			<p>
+				我们在使用插槽的时候，知道有一个叫做插槽 <code>prop</code> 的知识，今天我们用他和函数式组件结合在一块，实现一个零时变量的组件：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// tempvar.vue</span></span><br>
+						<span class="line">&lt;script&gt;</span><br>
+						<span class="line"><span class="keyword">export</span><span class="keyword">default</span> {</span><br>
+						<span class="line">    functional: <span class="literal">true</span>,</span><br>
+						<span class="line">    render(h, context) {</span><br>
+						<span class="line"><span class="keyword">const</span> { props,  scopedSlots} = context</span><br>
+						<span class="line"><span class="keyword">return</span> scopedSlots.default &amp;&amp; scopedSlots.default(props || {})</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line">&lt;/script&gt;</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				定义好了函数式组件，我们就可以在需要的地方引入且使用他：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+						<span class="line">12</span><br>
+						<span class="line">13</span><br>
+						<span class="line">14</span><br>
+						<span class="line">15</span><br>
+						<span class="line">16</span><br>
+						<span class="line">17</span><br>
+						<span class="line">18</span><br>
+						<span class="line">19</span><br>
+						<span class="line">20</span><br>
+						<span class="line">21</span><br>
+						<span class="line">22</span><br>
+						<span class="line">23</span><br>
+						<span class="line">24</span><br>
+						<span class="line">25</span><br>
+						<span class="line">26</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">tempvar</span></span></span><br>
+						<span class="line"><span class="tag"><span class="attr">:var1</span>=<span class="string">"`hello ${user.name}`"</span></span></span><br>
+						<span class="line"><span class="tag"><span class="attr">:var2</span>=<span class="string">"user.age ? user.age : '18'"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">template</span><span class="attr">v-slot</span>=<span class="string">"{var1, var2}"</span>&gt;</span></span><br>
+						<span class="line">       姓名： {{ var1 }}</span><br>
+						<span class="line">       年龄：{{ var2 }}</span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">tempvar</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br>
+						<span class="line"><span class="javascript"><span class="keyword">import</span> tempvar <span class="keyword">from</span><span class="string">'@/components/tempvar.vue'</span></span></span><br>
+						<span class="line"><span class="javascript"><span class="keyword">export</span><span class="keyword">default</span> {</span></span><br>
+						<span class="line">        data() {</span><br>
+						<span class="line"><span class="javascript"><span class="keyword">return</span> {</span></span><br>
+						<span class="line">                user: {</span><br>
+						<span class="line"><span class="javascript">                    name: <span class="string">'bubuzou'</span>,</span></span><br>
+						<span class="line">                    age: 12,</span><br>
+						<span class="line">                },</span><br>
+						<span class="line">            }</span><br>
+						<span class="line">        }</span><br>
+						<span class="line">        components: {</span><br>
+						<span class="line">            tempvar</span><br>
+						<span class="line">        }  </span><br>
+						<span class="line">    }</span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				可能细心的小伙伴发现了，要把名字前加个 <code>hello</code>、默认年龄设置为 <code>18</code> 用计算属性就可以了呀？为啥还要搞那么复杂，专门用一个函数式组件去实现呢？其实这个小技巧还是很有必要存在的，当许多组件都有这种数据的重新计算的时候，如果没有使用这个技巧，那么就需要写很多很多的计算属性，而有了函数式组件 <code>tempvar</code> 后，只需要在组件里引入他，然后写插槽就好了。就相当于把写计算属性的功夫花在了写插槽上了。总而言之，两种方式都可以实现类似的属性计算功能，该怎么选，随你喜欢啦。
+			</p>
+			<h3 id="调试template（不推荐）"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E8%B0%83%E8%AF%95template%EF%BC%88%E4%B8%8D%E6%8E%A8%E8%8D%90%EF%BC%89" class="headerlink" title="调试template（不推荐）"></a>调试template（不推荐）</h3>
+			<p>
+				在开发调试的时候经常会需要通过 <code>console.log</code> 来打印出某个数据对象来查看其内部的结构或者字段值，但是这样做肯定不必在 <code>template</code> 里将其输出更直接。比如有这样一个数据：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">obj: {</span><br>
+						<span class="line">    name: <span class="string">'bubuzou'</span>,</span><br>
+						<span class="line">    age: <span class="number">21</span>,</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				在模板中展示：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>{{ obj }}<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				页面渲染完成后会看到：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">{ "name": "bubuzou", "age": 21 }</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				对于这样的渲染结果虽然没什么问题，但是如果这个 <code>obj</code> 是层级很深且字段很多的数据，显示出来就会一堆数据砸在一块，丝毫没有阅读体验。
+			</p>
+			<p>
+				因此基于这个背景，我们可以将 <code>console.log</code> 挂载在 <code>Vue</code> 的实例原型上：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// main.js</span></span><br>
+						<span class="line">Vue.prototype.$log = <span class="built_in">window</span>.console.log</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				然后就可以开开心心在模板中使用他了：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>{{ $log( obj ) }}<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				这样会在浏览器控制台输出当前的数据对象，在显示效果上和 <code>console.log</code> 直接打印别无二致。
+			</p>
+			<p>
+				但说了这么多，使用 <code>Vue</code> 进行开发调试还是强烈推荐官方的<a target="_blank" rel="noopener" href="https://github.com/vuejs/vue-devtools">vue-devtools</a> 工具，谁用谁知道。
+			</p>
+			<h3 id="监听子组件的钩子函数"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E7%9B%91%E5%90%AC%E5%AD%90%E7%BB%84%E4%BB%B6%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0" class="headerlink" title="监听子组件的钩子函数"></a>监听子组件的钩子函数</h3>
+			<p>
+				通常如果我们想在子组件钩子函数触发的时候通知父组件，我们可以这样做：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- parent.vue --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span> @<span class="attr">mounted</span>=<span class="string">"doSomething"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">// child.vue</span></span><br>
+						<span class="line"><span class="built_in">this</span>.$emit(<span class="string">'mounted'</span>)</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				其实还有一种更加简单的写法，那就是使用 <code>hookEvent</code>：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span> @<span class="attr">hook:mounted</span>=<span class="string">"doSomething"</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				钩子函数除了以上用法，还可以通过动态注册做一些别的事情，比如组件销毁前进行资源的释放：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">mounted() {</span><br>
+						<span class="line"><span class="keyword">let</span> setIntervalId = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> {</span><br>
+						<span class="line"><span class="built_in">console</span>.log(<span class="number">888</span>);</span><br>
+						<span class="line">    }, <span class="number">1000</span>)</span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="built_in">this</span>.$once(<span class="string">"hook:beforeDestroy"</span>, <span class="function">() =&gt;</span> {</span><br>
+						<span class="line"><span class="built_in">clearInterval</span>(setIntervalId)</span><br>
+						<span class="line">        setIntervalId = <span class="literal">null</span></span><br>
+						<span class="line">    })</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h3 id="路由参数解耦"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E8%B7%AF%E7%94%B1%E5%8F%82%E6%95%B0%E8%A7%A3%E8%80%A6" class="headerlink" title="路由参数解耦"></a>路由参数解耦</h3>
+			<p>
+				参数解耦，啥意思呢？别着急，我们先来看比如对于这么一串路由：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">const</span> router = [{</span><br>
+						<span class="line">    path: <span class="string">'/home/:type/:id'</span>,</span><br>
+						<span class="line">    name: <span class="string">'Home'</span>,</span><br>
+						<span class="line">    component: Home,</span><br>
+						<span class="line">}]</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				当前页面的路径是 <code>http://xxx/detail/preview/21?sex=male</code>，平时我们写代码的时候或多或少的会写出这种代码，在组件里使用 <code>$route</code> 给组件传参数：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">mounted() {</span><br>
+						<span class="line"><span class="keyword">if</span> (<span class="built_in">this</span>.$route.params.type === <span class="string">'preview'</span>) {</span><br>
+						<span class="line"><span class="built_in">this</span>.isPreview = <span class="literal">true</span></span><br>
+						<span class="line">    } <span class="keyword">else</span> {</span><br>
+						<span class="line"><span class="built_in">this</span>.isPreview = <span class="literal">false</span></span><br>
+						<span class="line">    }</span><br>
+						<span class="line"><span class="built_in">this</span>.id = <span class="built_in">this</span>.$route.params.id</span><br>
+						<span class="line"><span class="built_in">this</span>.sex = <span class="built_in">this</span>.$route.query.sex</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				这样子写本身没什么问题，就是会使得组件和路由高度耦合，让组件只能在含有特定 <code>URL</code> 的页面中使用，限制了组件的通用性。其实，我们可以通过 <code>props</code> 传参，来解耦路由参数，将上面的路由配置改成如下：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="keyword">const</span> router = [{</span><br>
+						<span class="line">    path: <span class="string">'/home/:type/:id'</span>,</span><br>
+						<span class="line">    name: <span class="string">'Home'</span>,</span><br>
+						<span class="line">    component: Home,</span><br>
+						<span class="line">    props: <span class="function">(<span class="params">route</span>) =&gt;</span> ({</span><br>
+						<span class="line">        type: route.params.type,</span><br>
+						<span class="line">        id: route.params.id,</span><br>
+						<span class="line">        sex: route.query.sex,</span><br>
+						<span class="line">    })</span><br>
+						<span class="line">}]</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				然后在组件 <code>props</code> 加上参数：
+			</p>
+			<figure class="highlight js">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">props: [<span class="string">'type'</span>, <span class="string">'id'</span>, <span class="string">'sex'</span>]</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				组件里使用参数的时候就不需要用 <code>this.$route</code>，而是可以直接 <code>this.type</code> 即可。这样一来，这个组件就可以在任何地方使用了。
+			</p>
+			<h3 id="深度作用选择器"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E6%B7%B1%E5%BA%A6%E4%BD%9C%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8" class="headerlink" title="深度作用选择器"></a>深度作用选择器</h3>
+			<p>
+				当给 <code>style</code> 加上 <code>scoped</code>，页面渲染完成后会给 <code>html</code> 和 <code>css</code> 选择器加上哈希值用于表示唯一性：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">div</span><span class="attr">class</span>=<span class="string">"home"</span><span class="attr">data-v-fae5bece</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span><span class="attr">data-v-fae5bece</span><span class="attr">class</span>=<span class="string">"el-button el-button-primary"</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight css">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="selector-class">.home</span><span class="selector-class">.el-button</span><span class="selector-attr">[data-v-fae5bece]</span> {</span><br>
+						<span class="line"><span class="attribute">font-size</span>: <span class="number">20px</span>;</span><br>
+						<span class="line">}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				对于在 <code>style</code> 中被加了 <code>scoped</code> 的组件，其样式将只能作用于组件内部，不会对其子组件造成影响。比如有这样一个组件：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+						<span class="line">8</span><br>
+						<span class="line">9</span><br>
+						<span class="line">10</span><br>
+						<span class="line">11</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 父组件 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">div</span><span class="attr">class</span>=<span class="string">"home"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">el-button</span><span class="attr">type</span>=<span class="string">"primary"</span>&gt;</span>父按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">child</span>&gt;</span><span class="tag">&lt;/<span class="name">child</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br>
+						<span class="line"></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">style</span><span class="attr">lang</span>=<span class="string">"scss"</span><span class="attr">scoped</span>&gt;</span></span><br>
+						<span class="line"><span class="css"><span class="selector-class">.home</span><span class="selector-class">.el-button</span> {</span></span><br>
+						<span class="line">    font-size: 20px;</span><br>
+						<span class="line">}</span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="comment">&lt;!-- 子组件 --&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">div</span><span class="attr">class</span>=<span class="string">"child"</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">el-button</span><span class="attr">type</span>=<span class="string">"primary"</span>&gt;</span>子按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				当页面渲染出来后，会是如下结果：
+			</p>
+			<figure class="highlight html">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="tag">&lt;<span class="name">div</span><span class="attr">class</span>=<span class="string">"home"</span><span class="attr">data-v-fae5bece</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span><span class="attr">data-v-fae5bece</span><span class="attr">class</span>=<span class="string">"el-button el-button-primary"</span>&gt;</span>父按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">div</span><span class="attr">class</span>=<span class="string">"child"</span><span class="attr">data-v-fae5bece</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;<span class="name">button</span><span class="attr">class</span>=<span class="string">"el-button el-button-primary"</span>&gt;</span>子按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br>
+						<span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				根据上面的 <code>html</code>，我们可以看到 <code>.home .el-button[data-v-fae5bece]</code> 这个选择器作用不到子按钮这个 <code>button</code>。
+			</p>
+			<p>
+				在实际项目中，我们有时候需要让父组件的样式能作用到子组件，即使父组件的 <code>style</code> 上加了 <code>scoped</code>，那这个时候就需要用到深度作用选择器 <code>&gt;&gt;&gt;</code>，比如在刚刚的例子上可以给父组件样式加上深度作用选择器。
+			</p>
+			<blockquote>
+				<p>
+					深度作用选择器会被 <code>Vue Loader</code> 处理，且只能在有预处理器的地方使用。由于某些预处理器比如 <code>Sass</code> 不能正确解析 <code>&gt;&gt;&gt;</code>，所以我们可以使用它的别名：<code>/deep/</code> 或 <code>::v-deep</code> 来替代。
+				</p>
+			</blockquote>
+			<figure class="highlight">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+						<span class="line">2</span><br>
+						<span class="line">3</span><br>
+						<span class="line">4</span><br>
+						<span class="line">5</span><br>
+						<span class="line">6</span><br>
+						<span class="line">7</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line">&lt;style lang="scss" scoped&gt;</span><br>
+						<span class="line"><span class="selector-class">.home</span> {</span><br>
+						<span class="line">    /deep/ .el-button {</span><br>
+						<span class="line"><span class="selector-tag">font-size</span>: 20<span class="selector-tag">px</span>;</span><br>
+						<span class="line">    }</span><br>
+						<span class="line">}</span><br>
+						<span class="line">&lt;/style&gt;</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				加上深度作用选择器后，选择器会由原来的：
+			</p>
+			<figure class="highlight css">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="selector-class">.home</span><span class="selector-class">.el-button</span><span class="selector-attr">[data-v-fae5bece]</span> {}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<p>
+				变成如下的：
+			</p>
+			<figure class="highlight css">
+			<table>
+			<tbody>
+			<tr>
+				<td class="gutter">
+					<pre>
+						<span class="line">1</span><br>
+					</pre>
+				</td>
+				<td class="code">
+					<pre>
+						<span class="line"><span class="selector-class">.home</span><span class="selector-attr">[data-v-fae5bece]</span><span class="selector-class">.el-button</span> {}</span><br>
+					</pre>
+				</td>
+			</tr>
+			</tbody>
+			</table>
+			</figure>
+			<h2 id="参考文章"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0" class="headerlink" title="参考文章"></a>参考文章</h2>
+			<ul>
+				<li><a target="_blank" rel="noopener" href="https://juejin.im/post/6844903686926254087">vue篇之事件总线（EventBus）</a></li>
+				<li>《Vue开发实战》</li>
+			</ul>
+			<h2 id="感谢阅读"><a href="https://bubuzou.com/2020/09/21/vue-operate/#%E6%84%9F%E8%B0%A2%E9%98%85%E8%AF%BB" class="headerlink" title="感谢阅读"></a>感谢阅读</h2>
+			<p>
+				如果本文对你有帮助的话，给本文点个在看吧
+			</p>
+			<p>
+				<img src="./gzh.png" alt="大海我来了">
+			</p>
+		</div>
+		</article>
+	</div>
+	<div class="right-container">
+		<div class="widget">
+			<div id="arAnchorBar">
+			</div>
+		</div>
+	</div>
+	</section>
+</div>
+<div class="right-menu">
+</div>
+<div class="modal search-modal">
+	<div class="input-field">
+		<input type="text" id="search_input"><label for="search-input">搜索</label>
+	</div>
+	<div id="search_result" class="search-result">
+	</div>
+</div>
+<div class="blog-overlay">
+</div>
+<footer class="row">
+<div class="footer-con">
+	<div class="paginator">
+		<a href="https://bubuzou.com/2020/08/06/wepy2/" title="小程序升级WePY2踩坑记" class="next">NEXT</a>
+	</div>
+	<a href="https://bubuzou.com/2020/09/21/vue-operate/#comment" class="comment-anchor"></a>
+	<div id="vcomments" class=" v" data-class="v">
+		<div class="vpanel">
+			<div class="vwrap">
+				<p class="cancel-reply text-right" style="display:none;" title="取消回复">
+					<svg class="vicon cancel-reply-btn" viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4220" width="22" height="22"><path d="M796.454 985H227.545c-50.183 0-97.481-19.662-133.183-55.363-35.7-35.701-55.362-83-55.362-133.183V227.545c0-50.183 19.662-97.481 55.363-133.183 35.701-35.7 83-55.362 133.182-55.362h568.909c50.183 0 97.481 19.662 133.183 55.363 35.701 35.702 55.363 83 55.363 133.183v568.909c0 50.183-19.662 97.481-55.363 133.183S846.637 985 796.454 985zM227.545 91C152.254 91 91 152.254 91 227.545v568.909C91 871.746 152.254 933 227.545 933h568.909C871.746 933 933 871.746 933 796.454V227.545C933 152.254 871.746 91 796.454 91H227.545z" p-id="4221"></path><path d="M568.569 512l170.267-170.267c15.556-15.556 15.556-41.012 0-56.569s-41.012-15.556-56.569 0L512 455.431 341.733 285.165c-15.556-15.556-41.012-15.556-56.569 0s-15.556 41.012 0 56.569L455.431 512 285.165 682.267c-15.556 15.556-15.556 41.012 0 56.569 15.556 15.556 41.012 15.556 56.569 0L512 568.569l170.267 170.267c15.556 15.556 41.012 15.556 56.569 0 15.556-15.556 15.556-41.012 0-56.569L568.569 512z" p-id="4222"></path></svg>
+				</p>
+				<div class="vheader item3">
+					<input name="nick" placeholder="昵称" class="vnick vinput" type="text"><input name="mail" placeholder="邮箱" class="vmail vinput" type="email"><input name="link" placeholder="网址(http://)" class="vlink vinput" type="text">
+				</div>
+				<div class="vedit">
+					<textarea id="veditor" class="veditor vinput" placeholder="随便说点什么～.～"></textarea>
+					<div class="vrow">
+						<div class="vcol vcol-60 status-bar">
+						</div>
+						<div class="vcol vcol-40 vctrl text-right">
+							<span title="表情" class="vicon vemoji-btn"><svg viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="16172" width="22" height="22"><path d="M512 1024a512 512 0 1 1 512-512 512 512 0 0 1-512 512zM512 56.888889a455.111111 455.111111 0 1 0 455.111111 455.111111 455.111111 455.111111 0 0 0-455.111111-455.111111zM312.888889 512A85.333333 85.333333 0 1 1 398.222222 426.666667 85.333333 85.333333 0 0 1 312.888889 512z" p-id="16173"></path><path d="M512 768A142.222222 142.222222 0 0 1 369.777778 625.777778a28.444444 28.444444 0 0 1 56.888889 0 85.333333 85.333333 0 0 0 170.666666 0 28.444444 28.444444 0 0 1 56.888889 0A142.222222 142.222222 0 0 1 512 768z" p-id="16174"></path><path d="M782.222222 391.964444l-113.777778 59.733334a29.013333 29.013333 0 0 1-38.684444-10.808889 28.444444 28.444444 0 0 1 10.24-38.684445l113.777778-56.888888a28.444444 28.444444 0 0 1 38.684444 10.24 28.444444 28.444444 0 0 1-10.24 36.408888z" p-id="16175"></path><path d="M640.568889 451.697778l113.777778 56.888889a27.875556 27.875556 0 0 0 38.684444-10.24 27.875556 27.875556 0 0 0-10.24-38.684445l-113.777778-56.888889a28.444444 28.444444 0 0 0-38.684444 10.808889 28.444444 28.444444 0 0 0 10.24 38.115556z" p-id="16176"></path></svg></span><span title="预览" class="vicon vpreview-btn"><svg viewbox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17688" width="22" height="22"><path d="M502.390154 935.384615a29.538462 29.538462 0 1 1 0 59.076923H141.430154C79.911385 994.461538 29.538462 946.254769 29.538462 886.153846V137.846154C29.538462 77.745231 79.950769 29.538462 141.390769 29.538462h741.218462c61.44 0 111.852308 48.206769 111.852307 108.307692v300.268308a29.538462 29.538462 0 1 1-59.076923 0V137.846154c0-26.899692-23.355077-49.230769-52.775384-49.230769H141.390769c-29.420308 0-52.775385 22.331077-52.775384 49.230769v748.307692c0 26.899692 23.355077 49.230769 52.775384 49.230769h360.999385z" p-id="17689"></path><path d="M196.923077 216.615385m29.538461 0l374.153847 0q29.538462 0 29.538461 29.538461l0 0q0 29.538462-29.538461 29.538462l-374.153847 0q-29.538462 0-29.538461-29.538462l0 0q0-29.538462 29.538461-29.538461Z" p-id="17690"></path><path d="M649.846154 846.769231a216.615385 216.615385 0 1 0 0-433.230769 216.615385 216.615385 0 0 0 0 433.230769z m0 59.076923a275.692308 275.692308 0 1 1 0-551.384616 275.692308 275.692308 0 0 1 0 551.384616z" p-id="17691"></path><path d="M807.398383 829.479768m20.886847-20.886846l0 0q20.886846-20.886846 41.773692 0l125.321079 125.321079q20.886846 20.886846 0 41.773693l0 0q-20.886846 20.886846-41.773693 0l-125.321078-125.321079q-20.886846-20.886846 0-41.773693Z" p-id="17692"></path></svg></span>
+						</div>
+					</div>
+				</div>
+				<div class="vrow">
+					<div class="vcol vcol-30">
+						<a alt="Markdown is supported" href="https://guides.github.com/features/mastering-markdown/" class="vicon" target="_blank"><svg class="markdown" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z"></path></svg></a>
+					</div>
+					<div class="vcol vcol-70 text-right">
+						<button type="button" title="Cmd|Ctrl+Enter" class="vsubmit vbtn">提交</button>
+					</div>
+				</div>
+				<div class="vemojis" style="display:none;">
+				</div>
+				<div class="vinput vpreview" style="display:none;">
+				</div>
+				<div style="display:none;" class="vmark">
+				</div>
+			</div>
+		</div>
+		<div class="vcount" style="display: block;">
+			<span class="vnum">1</span> 评论
+		</div>
+		<div class="vload-top text-center" style="display:none;">
+			<i class="vspinner" style="width:30px;height:30px;"></i>
+		</div>
+		<div class="vcards">
+			<div class="vcard" id="5f716c286cec66034538c3ef">
+				<img class="vimg" src="./d41d8cd98f00b204e9800998ecf8427e">
+				<div class="vh">
+					<div class="vhead">
+						<span class="vnick">Anonymous</span><span class="vsys">Chrome 79.0.3945.79</span><span class="vsys">Windows 10.0</span>
+					</div>
+					<div class="vmeta">
+						<span class="vtime">4 天前</span><span class="vat" data-vm-id="5f716c286cec66034538c3ef" data-self-id="5f716c286cec66034538c3ef">回复</span>
+					</div>
+					<div class="vcontent" data-expand="查看更多...">
+						<p>
+							真棒
+						</p>
+					</div>
+					<div class="vreply-wrapper" data-self-id="5f716c286cec66034538c3ef">
+					</div>
+					<div class="vquote" data-self-id="5f716c286cec66034538c3ef">
+						<div class="vcard" id="5f75e8d34c974f5d4f467242">
+							<img class="vimg" src="./d41d8cd98f00b204e9800998ecf8427e">
+							<div class="vh">
+								<div class="vhead">
+									<span class="vnick">Anonymous</span><span class="vsys">Chrome 84.0.4147.125</span><span class="vsys">macOS 10.13.3</span>
+								</div>
+								<div class="vmeta">
+									<span class="vtime">15 小时前</span><span class="vat" data-vm-id="5f716c286cec66034538c3ef" data-self-id="5f75e8d34c974f5d4f467242">回复</span>
+								</div>
+								<div class="vcontent" data-expand="查看更多...">
+									<p>
+										<a href="https://bubuzou.com/2020/09/21/vue-operate/#5f716c286cec66034538c3ef" target="_blank" rel="nofollow">@Anonymous </a> ,  <img alt="happy" class="vemoji" referrerpolicy="no-referrer" src="./2018new_taikaixin_org.png">
+									</p>
+								</div>
+								<div class="vreply-wrapper" data-self-id="5f75e8d34c974f5d4f467242">
+								</div>
+								<div class="vquote" data-self-id="5f75e8d34c974f5d4f467242">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="vload-bottom text-center" style="display: none;">
+			<i class="vspinner" style="width:30px;height:30px;"></i>
+		</div>
+		<div class="vempty" style="display:none;">
+		</div>
+		<div class="vpage txt-center" style="display:none">
+			<button type="button" class="vmore vbtn">加载更多...</button>
+		</div>
+		<div class="vpower txt-right">
+			Powered By <a href="https://valine.js.org/" target="_blank">Valine</a><br>
+			v1.4.14
+		</div>
+	</div>
+	<!-- <script>new Valine({
+    el: "#vcomments",
+    appId: "aD8jJBpu4oew3ovNY73z6Rdq-gzGzoHsz",
+    appKey: "FdzS5SOPHdhYQoEUngQ8K2QW",
+    notify: false,
+    verify: false,
+    avatar: "robohash",
+    visitor: true,
+    placeholder: "随便说点什么～.～",
+});</script> -->
+	<div class="copyright">
+		<p>
+			© 2016 - 2020 <a href="https://weibo.com/316000381" target="_blank">typeR</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a><br>
+			 and <a href="https://github.com/Bulandent/hexo-theme-bubuzou" target="_blank">hexo-theme-bubuzou</a>
+		</p>
+		<p>
+			<span style="padding-right: 6px;">闽ICP备16007301号-2</span>
+		</p>
+	</div>
+	<div class="totop" style="display: block;">
+		<i></i>
+	</div>
+</div>
+</footer>
+<script src="./jquery-1.8.2.min.js"></script>
+<script src="./articleCatalog.js"></script>
+<script src="./main.js"></script>
+<!-- <script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script>
+<script>const valineAPI = (() => {
+try {
+    AV.init("aD8jJBpu4oew3ovNY73z6Rdq-gzGzoHsz", "FdzS5SOPHdhYQoEUngQ8K2QW");
+} catch(error) {}
+const isExist = (identity) => {
+    identity = identity || getRealPath();
+    let query = new AV.Query('Timer');
+    return new Promise((resolve, reject) => {
+    query.equalTo("identity", identity);
+    query.find().then(results => {
+        resolve(results.length > 0);
+    }, error => reject(error));
+    })
+}
+const _get = (identity) => {
+    let query = null;
+    if(identity && identity instanceof Array){
+    let querys = [];
+    for(let i = 0; i < identity.length; ++i) {
+        querys[i] = new AV.Query('Timer');
+        querys[i].equalTo('identity', identity[i]);
+    }
+    query = AV.Query.or.apply(null ,querys);
+    } else {
+    identity = identity || getRealPath();
+    query = new AV.Query("Timer");
+    query.equalTo("identity", identity);
+    }
+    return new Promise((resolve, reject) => {
+    query.find()
+    .then(results => resolve(results))
+    .catch(error => reject(error))
+    })
+}
+const create = (identity) => {
+    identity = identity || getRealPath();
+    return new Promise((resolve, reject) => {
+    let Todo = AV.Object.extend('Timer');
+    let todo = new Todo();
+    todo.set("times", 1);
+    todo.set("identity", identity);
+    todo.save().then(res => resolve(true), error => reject(error));
+    })
+}
+const update = (identity) => {
+    identity = identity || getRealPath();
+    return new Promise((resolve, reject) => {
+    let query = new AV.Query('Timer');
+    query.equalTo("identity", identity);
+    query.find().then(todos => {
+        todos.forEach(todo => {
+        todo.set("times", todo.attributes.times + 1);
+        });
+        return AV.Object.saveAll(todos);
+    }).then(todos => resolve(true), error => reject(error));
+    })
+}
+return {
+    isExist,
+    _get,
+    update,
+    create
+}
+})()
+const calcAndWriteTimes = () => {
+let isPost = true;
+let timerAllDOM = document.querySelectorAll(".article-timer");
+if(isPost) {
+    let identity = timerAllDOM[0].getAttribute("data-identity");
+    valineAPI.isExist(identity)
+    .then(exist => {
+    if(exist) {
+        return valineAPI.update(identity);
+    }
+    return new Promise(resolve => resolve(true));
+    })
+    .then( succuess => valineAPI._get(identity))
+    .then( result => timerAllDOM[0].innerText = result[0].attributes.times)
+    .catch(error => console.log(error.message))
+    return ;
+}
+let timerDOMCache = {};
+for(let timerDOM of timerAllDOM) {
+    let identity = timerDOM.getAttribute("data-identity");
+    if(timerDOMCache.hasOwnProperty(identity)){
+    timerDOMCache[identity].dom.push(timerDOM);
+    }else{
+    timerDOMCache[identity] = {
+        dom: [timerDOM],
+        times: undefined
+    };
+    }
+}
+let identities = Object.keys(timerDOMCache);
+valineAPI._get(identities).then(results => {
+    for(let result of results) {
+    let {identity, times} = result.attributes;
+    timerDOMCache[identity].times = times;
+    timerDOMCache[identity].dom.map(item => item.innerText = times);
+    }
+    for(let identity of identities) {
+    if(timerDOMCache[identity].times){
+        continue;
+    }
+    timerDOMCache[identity].dom.map(item => item.innerText = 1);
+    valineAPI.create(identity);
+    }
+}).catch(error => console.log(error.message))
+}
+if(true){
+calcAndWriteTimes();
+}</script> -->
+</body>
+</html>
