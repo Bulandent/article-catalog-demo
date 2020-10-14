@@ -141,7 +141,6 @@ let articleCatalog = (function() {
 
         // 自动滚动目录树，使得当前高亮目录在可视范围内
         function scrollCatalog() {
-			console.log('scrollCatalog');
             let currentCatalog = document.querySelector('.arCatalog .on');
 
 			let curr = currentCatalog.getBoundingClientRect(),
@@ -189,7 +188,6 @@ let articleCatalog = (function() {
 
         // 高亮当前目录s
         function setHighlight(){
-			console.log('setHighlight');
 			defaultDirec = getScrollDirection()
 
 			if (hasStopSetHighlight) {
